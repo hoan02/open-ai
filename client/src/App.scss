@@ -11,3 +11,21 @@
     filter: invert(100%) sepia(1%) saturate(7437%) hue-rotate(200deg) brightness(121%) contrast(94%);
   }
 }
+
+.app{
+  .header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+  }
+  .body{
+    position: relative;
+    top: 60px;
+  }
+  .footer{
+    position: relative;
+    top: 60px;
+  }
+}
