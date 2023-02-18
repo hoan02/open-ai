@@ -6,11 +6,12 @@ import Footer from "../../components/footer/Footer";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import ReactPlayer from "react-player";
 
-const Home = () => {
+const Home = (props) => {
+  // console.log(props.isMobile);
   return (
     <BrowserRouter>
       <div className="home">
-        <Navbar />
+        <Navbar isMobile={props.isMobile} />
         <div className="main">
           <div className="container">
             <ReactPlayer
@@ -23,7 +24,7 @@ const Home = () => {
               width="100%"
               height="100%"
             />
-
+            <div className="coat"></div>
             <div className="wrapper">
               <span className="title">
                 Join us in shaping the future of technology.
