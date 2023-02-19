@@ -1,15 +1,12 @@
 import React from "react";
 import "./Home.scss";
-import Navbar from "../../components/navbar/Navbar";
-import Footer from "../../components/footer/Footer";
 
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
 
 const Home = (props) => {
   return (
     <div className="home">
-      {/* <Navbar isMobile={props.isMobile} /> */}
       <div className="main">
         <div className="container">
           <ReactPlayer
@@ -42,7 +39,6 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 };

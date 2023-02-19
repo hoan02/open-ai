@@ -6,14 +6,28 @@ import logo from "../../assets/images/logo.svg";
 import btnMenu from "../../assets/images/btn-menu.png";
 
 const Navbar = (props) => {
+  const menuItems = [
+    { path: "/chatgpt", title: "CHAT GPT" },
+    { path: "/dalle", title: "DALL·E 2" },
+    { path: "/whisper", title: "WHISPER" },
+    { path: "/blog", title: "BLOG" },
+    { path: "/about", title: "ABOUT" },
+  ];
+
   const [open, setOpen] = useState(false);
+  const [activeTitle, setActiveTitle] = useState("");
 
   return (
     <div className="navbar">
       <div className="container">
         <Link to="/">
           <div className="logo">
-            <img src={logo} alt="logo" className="filter-white" />
+            <img
+              src={logo}
+              alt="logo"
+              className="filter-white"
+              onClick={() => setActiveTitle("/")}
+            />
           </div>
         </Link>
         {props.isMobile ? (
@@ -27,41 +41,33 @@ const Navbar = (props) => {
           </div>
         ) : (
           <div className="menu-nav">
-            <Link to="/chatgpt" className="link">
-              <span>CHAT GPT</span>
-            </Link>
-            <Link to="/dalle" className="link">
-              <span>DALL·E 2</span>
-            </Link>
-            <Link to="/whisper" className="link">
-              <span>WHISPER</span>
-            </Link>
-            <Link to="/blog" className="link">
-              <span>BLOG</span>
-            </Link>
-            <Link to="/about" className="link">
-              <span>ABOUT</span>
-            </Link>
+            {menuItems.map((item) => (
+              <Link
+                to={item.path}
+                className="link"
+                key={item.path}
+                onClick={() => setActiveTitle(item.title)}
+              >
+                <span className={activeTitle === item.title ? "hover" : ""}>
+                  {item.title}
+                </span>
+              </Link>
+            ))}
           </div>
         )}
       </div>
       {props.isMobile && open && (
         <div className="options">
-          <Link to="/chatgpt" className="link">
-            <span>CHAT GPT</span>
-          </Link>
-          <Link to="/dalle" className="link">
-            <span>DALL·E 2</span>
-          </Link>
-          <Link to="/whisper" className="link">
-            <span> WHISPER</span>
-          </Link>
-          <Link to="/blog" className="link">
-            <span>BLOG</span>
-          </Link>
-          <Link to="/about" className="link">
-            <span>ABOUT</span>
-          </Link>
+          {menuItems.map((item) => (
+            <Link
+              to={item.path}
+              className="link"
+              key={item.path}
+              onClick={() => setOpen(!open)}
+            >
+              <span>{item.title}</span>
+            </Link>
+          ))}
         </div>
       )}
     </div>
