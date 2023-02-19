@@ -63,9 +63,14 @@ const Navbar = (props) => {
               to={item.path}
               className="link"
               key={item.path}
-              onClick={() => setOpen(!open)}
+              onClick={() => {
+                setOpen(!open);
+                setActiveTitle(item.title);
+              }}
             >
-              <span>{item.title}</span>
+              <span className={activeTitle === item.title ? "hover" : ""}>
+                {item.title}
+              </span>
             </Link>
           ))}
         </div>

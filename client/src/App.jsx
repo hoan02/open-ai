@@ -8,7 +8,6 @@ import Whisper from "./pages/whisper/Whisper";
 import Blog from "./pages/blog/Blog";
 import About from "./pages/about/About";
 import Navbar from "./components/navbar/Navbar";
-import Footer from "./components/footer/Footer";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -31,9 +30,7 @@ const App = () => {
 
   return (
     <div className="app">
-      <div className="header">
-        <Navbar isMobile={isMobile} className="navbar" />
-      </div>
+      <Navbar isMobile={isMobile} className="navbar" />
       <div className="body">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -43,9 +40,6 @@ const App = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/about" element={<About />} />
         </Routes>
-      </div>
-      <div className="footer">
-        <Footer />
       </div>
     </div>
   );
