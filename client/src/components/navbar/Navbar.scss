@@ -1,0 +1,65 @@
+.navbar{
+  justify-content: center;
+  backdrop-filter: blur(30px);
+  color: white;
+
+  .container{
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+
+    .logo{
+      padding: 15px;
+      width: 130px;
+      object-fit: contain;
+      img{
+        width: 100%;
+      }
+    }
+    .menu-nav{
+      span{
+        padding: 20px;
+        font-size: 18px;
+        font-family: Montserrat, sans-serif;
+        font-weight: 700;
+      }
+
+      .hover{
+        color: black;
+      }
+    }
+
+    .menu-nav-mobile{
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      img{
+        padding: 10px;
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    
+  }
+
+  .options{
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    font-weight: 400;
+    padding: 20px;
+    gap: 10px;
+    color: white;
+    border-top: 1px solid gray;
+
+    .hover{
+      color: black;
+    }
+  }
+}
