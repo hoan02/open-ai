@@ -1,24 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import axios from "axios";
 
 import "./ChatGpt.scss";
-import avtBot from "../../assets/images/avt-bot.jpg";
-import avtUser from "../../assets/images/avt-user.jpg";
 import iconSub from "../../assets/images/icon-letter-air.png";
+import ChatLog from "../../components/message/ChatLog";
 
 const HOST = "http://localhost:8080/api/chatgpt";
 
+const RenderChatLogs = ({ data }) => {
+  if (data?.length > 0) {
+    return data.map((chatLog) => <ChatLog key={chatLog._id} {...chatLog} />);
+  }
+
+  return <ChatLog />;
+};
+
 const ChatGpt = (props) => {
   const [message, setMessage] = useState("");
+  const [allChatLogs, setAllChatLogs] = useState({});
 
+  // GET chat logs
+  const fetchChatLogs = async () => {
+    try {
+      const response = await axios.get(`${HOST}/`);
+      setAllChatLogs(response.data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+  useEffect(() => {
+    fetchChatLogs();
+  }, []);
+
+  // console.log(allChatLogs.data)
+  // END GET
+
+  // POST
   const handleSubmit = async () => {
     if (message.trim() === "") return;
     try {
       const response = await axios.post(`${HOST}/`, {
         message: message,
       });
-      console.log(response.data);
+      // console.log(response.data)
     } catch (error) {
       console.log(error);
     }
@@ -28,130 +53,30 @@ const ChatGpt = (props) => {
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
+  // END POST
 
   return (
     <div className="chatgpt">
       <div className="container">
-        <aside className="sidemenu">
-          <div className="side-menu-btn">
-            <span className="icon-add">✚</span>
+        <aside className="sideMenu">
+          <div className="sideMenuBtn">
+            <span className="iconAdd">✚</span>
             New chat
           </div>
         </aside>
 
-        <section className="chatbox">
-          <div className="chat-log bot">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtBot} alt="" />
-              </div>
-              <div className="message">Hello world!</div>
-            </div>
-          </div>
-
-          <div className="chat-log">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtUser} alt="" />
-              </div>
-              <div className="message">Chào bot</div>
-            </div>
-          </div>
-          <div className="chat-log bot">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtBot} alt="" />
-              </div>
-              <div className="message">Hello world!</div>
-            </div>
-          </div>
-
-          <div className="chat-log">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtUser} alt="" />
-              </div>
-              <div className="message">Chào bot</div>
-            </div>
-          </div>
-          <div className="chat-log bot">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtBot} alt="" />
-              </div>
-              <div className="message">Hello world!</div>
-            </div>
-          </div>
-
-          <div className="chat-log">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtUser} alt="" />
-              </div>
-              <div className="message">Chào bot</div>
-            </div>
-          </div>
-          <div className="chat-log bot">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtBot} alt="" />
-              </div>
-              <div className="message">Hello world!</div>
-            </div>
-          </div>
-
-          <div className="chat-log">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtUser} alt="" />
-              </div>
-              <div className="message">Chào bot</div>
-            </div>
-          </div>
-          <div className="chat-log bot">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtBot} alt="" />
-              </div>
-              <div className="message">Hello world!</div>
-            </div>
-          </div>
-
-          <div className="chat-log">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtUser} alt="" />
-              </div>
-              <div className="message">Chào bot</div>
-            </div>
-          </div>
-          <div className="chat-log bot">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtBot} alt="" />
-              </div>
-              <div className="message">Hello world!</div>
-            </div>
-          </div>
-
-          <div className="chat-log">
-            <div className="chat-message">
-              <div className="avatar">
-                <img src={avtUser} alt="" />
-              </div>
-              <div className="message">Chào bot</div>
-            </div>
-          </div>
+        <section className="chatBox">
+          <RenderChatLogs data={allChatLogs.data} />
 
           <div
-            className="chat-input-container"
+            className="chatInputContainer"
             style={{ width: props.isMobile ? "100%" : "calc(100% - 260px)" }}
           >
-            <div className="chat-input-holder">
+            <div className="chatInputHolder">
               <TextareaAutosize
                 minRows={1}
                 maxRows={10}
-                className="chat-input-textarea"
+                className="chatInputTextarea"
                 placeholder="Type your message here"
                 value={message}
                 onChange={handleChange}
