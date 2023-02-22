@@ -10,6 +10,4 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-// router.user("/chatgpt", require("./chatgptRoutes"));
-
 export default { router, openai };

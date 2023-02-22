@@ -4,6 +4,7 @@
   background-color: #202123;
   height: 100vh;
   width: 100%;
+  min-width: 1px;
   display: flex;
 
   .container{
@@ -44,18 +45,19 @@
       background-color: #343541;
       position: relative;
       overflow-y: auto;
+      margin-bottom: 120px;
       
       .chatInputContainer{
         position: fixed;
         bottom: 0;
         z-index: 10;
         box-sizing: content-box;
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgb(20, 20, 20) 100%);
+        background-image: linear-gradient(to top, #191a1b 0%, #343541 100%);
         text-align: center;
 
         .chatInputHolder{
           display: flex-end;
-          margin: 20px 10%;
+          margin: 20px 15%;
 
           .chatInputTextarea{
             width: 100%;
@@ -85,7 +87,7 @@
         }
         .title{
           color: #878787;
-          margin-bottom: 20px;
+          margin: 0 20px 20px 20px;
         }
       }
     }
@@ -93,7 +95,7 @@
 }
 
 @media (max-width: 768px){
-  .sidemenu{
+  .sideMenu{
     display: none;
   }
 }

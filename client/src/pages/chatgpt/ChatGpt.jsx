@@ -10,10 +10,12 @@ const HOST = "http://localhost:8080/api/chatgpt";
 
 const RenderChatLogs = ({ data }) => {
   if (data?.length > 0) {
-    return data.map((chatLog) => <ChatLog key={chatLog._id} {...chatLog} />);
+    return data.map((chatLog) => (
+      <ChatLog key={chatLog._id} typing={false} {...chatLog} />
+    ));
   }
 
-  return <ChatLog />;
+  return <ChatLog from="bot" message="Chào bạn. Tôi có thể giúp gì cho bạn?" />;
 };
 
 const ChatGpt = (props) => {
@@ -29,12 +31,10 @@ const ChatGpt = (props) => {
       alert(error);
     }
   };
+
   useEffect(() => {
     fetchChatLogs();
   }, []);
-
-  // console.log(allChatLogs.data)
-  // END GET
 
   // POST
   const handleSubmit = async () => {
@@ -43,13 +43,13 @@ const ChatGpt = (props) => {
       const response = await axios.post(`${HOST}/`, {
         message: message,
       });
-      // console.log(response.data)
+      console.log(response.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setMessage("");
     }
-    setMessage("");
   };
-
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
@@ -75,7 +75,7 @@ const ChatGpt = (props) => {
             <div className="chatInputHolder">
               <TextareaAutosize
                 minRows={1}
-                maxRows={10}
+                maxRows={15}
                 className="chatInputTextarea"
                 placeholder="Type your message here"
                 value={message}
