@@ -8,52 +8,62 @@ import ChatLog from "../../components/message/ChatLog";
 
 const HOST = "http://localhost:8080/api/chatgpt";
 
-const RenderChatLogs = ({ data }) => {
-  if (data?.length > 0) {
-    return data.map((chatLog) => (
-      <ChatLog key={chatLog._id} typing={false} {...chatLog} />
-    ));
-  }
-
-  return <ChatLog from="bot" message="Chào bạn. Tôi có thể giúp gì cho bạn?" />;
-};
-
 const ChatGpt = (props) => {
-  const [message, setMessage] = useState("");
-  const [allChatLogs, setAllChatLogs] = useState({});
+  const [input, setInput] = useState("");
+  const [lastConversation, setLastConversation] = useState([]);
+  const [nextConversation, setNextConversation] = useState([]);
 
-  // GET chat logs
-  const fetchChatLogs = async () => {
+  // GET
+  const fetchLastConversation = async () => {
     try {
-      const response = await axios.get(`${HOST}/`);
-      setAllChatLogs(response.data);
+      const response = await axios.get(`${HOST}`);
+      setLastConversation(response.data);
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchChatLogs();
+    fetchLastConversation();
   }, []);
 
   // POST
-  const handleSubmit = async () => {
-    if (message.trim() === "") return;
-    try {
-      const response = await axios.post(`${HOST}/`, {
-        message: message,
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setMessage("");
-    }
-  };
   const handleChange = (e) => {
-    setMessage(e.target.value);
+    setInput(e.target.value);
   };
-  // END POST
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const user = {
+      message: input,
+      from: "user",
+    };
+    setNextConversation((nextConversation) => [...nextConversation, user]);
+    setInput("");
+    axios
+      .post(`${HOST}`, user)
+      .then((response) => {
+        const bot = {
+          message: response.data.data.message,
+          from: "bot",
+        };
+        setNextConversation((nextConversation) => [...nextConversation, bot]);
+      })
+      .catch((error) => {
+        console.log(error);
+        const bot = {
+          message: "Đã xảy ra lỗi. Vui lòng thử lại sau!",
+          From: "bot",
+        };
+        setNextConversation((nextConversation) => [...nextConversation, bot]);
+      });
+  };
+
+  // useEffect(() => {
+  //   const right = document.querySelector(".chatBox");
+  //   right.scrollTop = right.scrollHeight;
+  //   console.log(nextConversation);
+  // }, [nextConversation]);
 
   return (
     <div className="chatgpt">
@@ -66,8 +76,16 @@ const ChatGpt = (props) => {
         </aside>
 
         <section className="chatBox">
-          <RenderChatLogs data={allChatLogs.data} />
-
+          <div className="lastConv">
+            {lastConversation.data?.map((chatLog) => (
+              <ChatLog key={chatLog._id} typing={false} {...chatLog} />
+            ))}
+          </div>
+          <div className="nextConv">
+            {nextConversation.map((chatLog, index) => (
+              <ChatLog key={index} typing={true} {...chatLog} />
+            ))}
+          </div>
           <div
             className="chatInputContainer"
             style={{ width: props.isMobile ? "100%" : "calc(100% - 260px)" }}
@@ -78,7 +96,7 @@ const ChatGpt = (props) => {
                 maxRows={15}
                 className="chatInputTextarea"
                 placeholder="Type your message here"
-                value={message}
+                value={input}
                 onChange={handleChange}
               />
               <img src={iconSub} alt="" onClick={handleSubmit} />
