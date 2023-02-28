@@ -1,5 +1,5 @@
 import React from "react";
-import TypingEffect from "../funcitions/TypingEffect";
+import TypingEffect from "../../hooks/TypingEffect";
 
 import "./ChatLog.scss";
 import avtBot from "../../assets/images/avt-bot.jpg";

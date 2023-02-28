@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import axios from "axios";
 
 import "./ChatGpt.scss";
 import iconSub from "../../assets/images/icon-letter-air.png";
 import ChatLog from "../../components/message/ChatLog";
+import { Contexts } from "../../hooks/ProviderContext";
+
 
 const HOST = "http://localhost:8080/api/chatgpt";
 
-const ChatGpt = (props) => {
+const ChatGpt = () => {
+  const { isMobile } = useContext(Contexts);
   const [input, setInput] = useState("");
   const [lastConversation, setLastConversation] = useState([]);
   const [nextConversation, setNextConversation] = useState([]);
@@ -65,11 +68,13 @@ const ChatGpt = (props) => {
   //   console.log(nextConversation);
   // }, [nextConversation]);
 
+  const handleClickNewConversation = () => {};
+
   return (
     <div className="chatgpt">
       <div className="container">
         <aside className="sideMenu">
-          <div className="sideMenuBtn">
+          <div className="sideMenuBtn" onClick={handleClickNewConversation}>
             <span className="iconAdd">✚</span>
             New chat
           </div>
@@ -88,7 +93,7 @@ const ChatGpt = (props) => {
           </div>
           <div
             className="chatInputContainer"
-            style={{ width: props.isMobile ? "100%" : "calc(100% - 260px)" }}
+            style={{ width: isMobile ? "100%" : "calc(100% - 260px)" }}
           >
             <div className="chatInputHolder">
               <TextareaAutosize

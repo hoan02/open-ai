@@ -3,16 +3,15 @@
   backdrop-filter: blur(30px);
   color: white;
 
+
   .container{
-    max-width: 1400px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    
 
     .logo{
-      padding: 15px;
+      padding: 20px;
       width: 130px;
       object-fit: contain;
       img{
@@ -20,6 +19,12 @@
       }
     }
     .menu-nav{
+      width: 100%;
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: space-between;
+
       span{
         padding: 20px;
         font-size: 18px;
@@ -30,16 +35,73 @@
       .hover{
         color: black;
       }
+
+      .links{
+      }
+
+      .auth{
+        margin-right: 10px;
+        .user {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+          position: relative;
+  
+          img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+  
+          .options {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            z-index: 999;
+            border: 1px solid lightgrey;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 200px;
+            font-weight: 300;
+            color: gray;
+          }
+        }
+        
+        .signIn{
+          color: white;
+          padding: 10px 20px;;
+        }
+
+        button {
+          color: white;
+          padding: 10px 20px;
+          border-radius: 5px;
+          border: 1px solid white;
+          background-color: transparent;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #0033ff;
+            border-color: #0033ff;
+          }
+        }
+      }
     }
 
     .menu-nav-mobile{
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
       cursor: pointer;
       img{
-        padding: 10px;
-        width: 40px;
-        height: 40px;
+        padding: 15px;
+        width: 66px;
+        height: 66px;
       }
     }
 

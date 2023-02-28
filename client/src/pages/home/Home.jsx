@@ -1,11 +1,11 @@
 import React from "react";
-import "./Home.scss";
-
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
+
+import "./Home.scss";
 import Footer from "../../components/footer/Footer";
 
-const Home = (props) => {
+const Home = () => {
   return (
     <>
       <div className="home">
@@ -13,9 +13,10 @@ const Home = (props) => {
           <div className="container">
             <ReactPlayer
               className="player-bg"
-              url="https://www.youtube.com/watch?v=yWDUzNiWPJA"
+              url="https://youtu.be/yWDUzNiWPJA"
               playing={true}
               loop={true}
+              controls={false}
               volume={0}
               muted={true}
               width="100%"
@@ -28,7 +29,7 @@ const Home = (props) => {
               </span>
               <div className="btn">
                 <Link
-                  to="https://www.youtube.com/watch?v=yWDUzNiWPJA"
+                  to="https://youtu.be/yWDUzNiWPJA"
                   className="link"
                   target="_blank"
                 >
