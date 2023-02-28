@@ -2,6 +2,7 @@ import createError from "../utils/createError.js";
 import Message from "../models/message.model.js";
 import Conversation from "../models/conversation.model.js";
 
+
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
