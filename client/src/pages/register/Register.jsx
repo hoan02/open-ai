@@ -4,8 +4,6 @@ import "./Register.scss";
 import newRequest from "../../utils/newRequest";
 import { useNavigate } from "react-router-dom";
 
-const HOST = "http://localhost:8080/api";
-
 function Register() {
   const [file, setFile] = useState(null);
   const [user, setUser] = useState({
@@ -25,17 +23,12 @@ function Register() {
     });
   };
 
-  const handleSeller = (e) => {
-    setUser((prev) => {
-      return { ...prev, isSeller: e.target.checked };
-    });
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const url = await upload(file);
     try {
-      await newRequest.post(`${HOST}/auth/register`, {
+      await newRequest.post("auth/register", {
         ...user,
         img: url,
       });
@@ -53,7 +46,7 @@ function Register() {
           <input
             name="username"
             type="text"
-            placeholder="johndoe"
+            placeholder="hoancute"
             onChange={handleChange}
           />
           <label htmlFor="">Email</label>
@@ -71,7 +64,7 @@ function Register() {
           <input
             name="country"
             type="text"
-            placeholder="Usa"
+            placeholder="Việt Nam"
             onChange={handleChange}
           />
           <button type="submit">Register</button>

@@ -15,26 +15,59 @@
     display: flex;
     border-top: 1px solid gray;
 
-    .sideMenu{
+    .conversations{
       background-color: #202123;
       width: 260px;
       border-right: 1px solid rgb(166, 166, 166);
       text-align: left;
       flex-direction: column;
+      display: flex;
 
-  
-  
-      .sideMenuBtn{
-        padding: 10px 0;
-        margin: 10px 20px;
+      .conversation{
+        margin: 10px 10% 0 10%;
+        width: 80%;
+        height: 36px;
         border: 1px solid whitesmoke;
         border-radius: 10px;
+        display: flex;
+        justify-items: center;
         cursor: pointer;
-        .iconAdd{
-          padding: 15px;
+
+        span{
+          color: white;
+          font-size: 16px;
+          margin: 5px 10px;
         }
+
+        input{
+          width: 100%;
+          margin: 5px;
+          padding: 0 5px;
+        }
+
+        img{
+          margin: 5px;
+          padding: 5px;
+          border-radius: 3px;
+          &:hover{
+            background-color: #474857;
+          }
+        }
+
         &:hover{
           background-color: #2c2d30;
+        }
+      }
+    
+      .newConversation{
+        
+        .iconAdd{
+          padding: 0 15px;
+        }
+        
+        .inputNewConv{
+          margin: 0 5%;
+          width: 90%;
         }
       }
     }

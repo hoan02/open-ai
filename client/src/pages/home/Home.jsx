@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/youtube";
 
 import "./Home.scss";
 import Footer from "../../components/footer/Footer";

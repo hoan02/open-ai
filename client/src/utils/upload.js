@@ -3,7 +3,7 @@ import axios from "axios";
 const upload = async (file) => {
   const data = new FormData();
   data.append("file", file);
-  data.append("upload_preset", "fiverr");
+  data.append("upload_preset", "openai-user");
 
   try {
     const res = await axios.post(import.meta.env.VITE_UPLOAD_LINK, data);

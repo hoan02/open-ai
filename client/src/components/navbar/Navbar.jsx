@@ -8,8 +8,6 @@ import btnMenu from "../../assets/images/btn-menu.png";
 import { Contexts } from "../../hooks/ProviderContext";
 import newRequest from "../../utils/newRequest";
 
-const HOST = "http://localhost:8080/api";
-
 const Navbar = () => {
   const menuItems = [
     { path: "/chatgpt", title: "CHAT GPT" },
@@ -23,11 +21,11 @@ const Navbar = () => {
   const [activeTitle, setActiveTitle] = useState("");
   const navigate = useNavigate();
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const handleLogout = async () => {
     try {
-      await newRequest.post(`${HOST}/auth/logout`);
+      await newRequest.post("auth/logout");
       localStorage.setItem("currentUser", null);
       navigate("/");
     } catch (err) {

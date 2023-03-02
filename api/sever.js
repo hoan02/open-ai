@@ -6,7 +6,8 @@ import * as dotenv from "dotenv";
 
 import authRoute from "./routes/auth.route.js"
 import userRoute from "./routes/user.route.js"
-import chatgptRoute from "./routes/user.route.js"
+import conversationRoute from "./routes/conversation.route.js"
+import messageRoute from "./routes/message.route.js"
 
 const app = express();
 dotenv.config();
@@ -22,12 +23,14 @@ const connectDB = async () => {
 };
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
-app.use("/api/chatgpt", chatgptRoute);
+app.use("/api/chatgpt/conversations", conversationRoute);
+// app.use("/api/chatgpt/messages", messageRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

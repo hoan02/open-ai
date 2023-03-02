@@ -1,96 +1,111 @@
 import React, { useState, useEffect, useContext } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import "./ChatGpt.scss";
 import iconSub from "../../assets/images/icon-letter-air.png";
-import ChatLog from "../../components/message/ChatLog";
+import check from "../../assets/images/check.png";
+import ChatLog from "../../components/chatLog/ChatLog";
 import { Contexts } from "../../hooks/ProviderContext";
-
-
-const HOST = "http://localhost:8080/api/chatgpt";
+import newRequest from "../../utils/newRequest";
 
 const ChatGpt = () => {
+  const { id } = useParams();
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { isMobile } = useContext(Contexts);
-  const [input, setInput] = useState("");
-  const [lastConversation, setLastConversation] = useState([]);
-  const [nextConversation, setNextConversation] = useState([]);
+  const [inputMessage, setInputMessage] = useState("");
 
-  // GET
-  const fetchLastConversation = async () => {
-    try {
-      const response = await axios.get(`${HOST}`);
-      setLastConversation(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [isNewConversation, setIsNewConversation] = useState(false);
+  const [newConversationTitle, setNewConversationTitle] = useState("");
 
-  useEffect(() => {
-    fetchLastConversation();
-  }, []);
+  const handleSubmit = () => {};
 
-  // POST
-  const handleChange = (e) => {
-    setInput(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
+  const handleCreateConversation = async (e) => {
     e.preventDefault();
-    const user = {
-      message: input,
-      from: "user",
-    };
-    setNextConversation((nextConversation) => [...nextConversation, user]);
-    setInput("");
-    axios
-      .post(`${HOST}`, user)
-      .then((response) => {
-        const bot = {
-          message: response.data.data.message,
-          from: "bot",
-        };
-        setNextConversation((nextConversation) => [...nextConversation, bot]);
-      })
-      .catch((error) => {
-        console.log(error);
-        const bot = {
-          message: "Đã xảy ra lỗi. Vui lòng thử lại sau!",
-          From: "bot",
-        };
-        setNextConversation((nextConversation) => [...nextConversation, bot]);
-      });
+    mutation.mutate({
+      userId: currentUser._id,
+      title: newConversationTitle,
+    });
+    setNewConversationTitle("");
+    setIsNewConversation(false);
   };
 
-  // useEffect(() => {
-  //   const right = document.querySelector(".chatBox");
-  //   right.scrollTop = right.scrollHeight;
-  //   console.log(nextConversation);
-  // }, [nextConversation]);
+  // Get all conversations
+  const {
+    isLoading: isLoadingConversations,
+    error: errorConversations,
+    data: dataConversations,
+  } = useQuery({
+    queryKey: ["conversations"],
+    queryFn: () =>
+      newRequest.get(`/chatgpt/conversations`).then((res) => {
+        return res.data;
+      }),
+  });
 
-  const handleClickNewConversation = () => {};
+  const mutation = useMutation({
+    mutationFn: (conversation) => {
+      return newRequest.post(`/chatgpt/conversations`, conversation);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["conversations"]);
+    },
+  });
 
   return (
     <div className="chatgpt">
       <div className="container">
-        <aside className="sideMenu">
-          <div className="sideMenuBtn" onClick={handleClickNewConversation}>
-            <span className="iconAdd">✚</span>
-            New chat
+        {isMobile ? (
+          <></>
+        ) : (
+          <div className="conversations">
+            <div className="newConversation">
+              <div className="conversation">
+                {isNewConversation ? (
+                  <>
+                    <input
+                      type="text"
+                      placeholder="Nhập tiêu đề"
+                      value={newConversationTitle}
+                      onChange={(e) => setNewConversationTitle(e.target.value)}
+                    />
+                    <img
+                      src={check}
+                      alt=""
+                      onClick={handleCreateConversation}
+                    />
+                  </>
+                ) : (
+                  <span onClick={() => setIsNewConversation(true)}>
+                    ✚ New Chat
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="renderConversations">
+              {isLoadingConversations
+                ? "loading"
+                : errorConversations
+                ? "error"
+                : dataConversations.map((conversation) => (
+                    <div className="conversation" key={conversation._id}>
+                      <span>{conversation.title}</span>
+                    </div>
+                  ))}
+            </div>
           </div>
-        </aside>
+        )}
 
         <section className="chatBox">
-          <div className="lastConv">
+          {/* <div className="lastConv">
             {lastConversation.data?.map((chatLog) => (
               <ChatLog key={chatLog._id} typing={false} {...chatLog} />
             ))}
-          </div>
-          <div className="nextConv">
-            {nextConversation.map((chatLog, index) => (
-              <ChatLog key={index} typing={true} {...chatLog} />
-            ))}
-          </div>
+          </div> */}
+
           <div
             className="chatInputContainer"
             style={{ width: isMobile ? "100%" : "calc(100% - 260px)" }}
@@ -101,8 +116,8 @@ const ChatGpt = () => {
                 maxRows={15}
                 className="chatInputTextarea"
                 placeholder="Type your message here"
-                value={input}
-                onChange={handleChange}
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
               />
               <img src={iconSub} alt="" onClick={handleSubmit} />
             </div>

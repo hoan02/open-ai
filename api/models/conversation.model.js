@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-
 const ConversationSchema = new Schema(
   {
     id: {
@@ -9,17 +8,13 @@ const ConversationSchema = new Schema(
       required: true,
       unique: true,
     },
-    botId: {
-      type: String,
-      required: true,
-    },
     userId: {
       type: String,
       required: true,
     },
-    lastMessage: {
+    title: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   {
