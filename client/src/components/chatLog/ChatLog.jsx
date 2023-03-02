@@ -5,8 +5,8 @@ import "./ChatLog.scss";
 import avtBot from "../../assets/images/avt-bot.jpg";
 import avtUser from "../../assets/images/avt-user.jpg";
 
-const ChatLog = ({typing, ...chatLog}) => {
-  const isBot = chatLog.from === "bot";
+const ChatLog = ({ typing, ...chatLog }) => {
+  const isBot = chatLog.role === "assistant";
 
   return (
     <div className={isBot ? "chatLog bot" : "chatLog"}>
@@ -15,9 +15,9 @@ const ChatLog = ({typing, ...chatLog}) => {
           <img src={isBot ? avtBot : avtUser} alt="" />
         </div>
         {typing ? (
-          <TypingEffect className="message" inputText={chatLog.message} />
+          <TypingEffect className="message" inputText={chatLog.content} />
         ) : (
-          <p>{chatLog.message}</p>
+          <p>{chatLog.content}</p>
         )}
       </div>
     </div>

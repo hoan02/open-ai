@@ -1,14 +1,13 @@
 import createError from "../utils/createError.js";
 import Conversation from "../models/conversation.model.js";
+import Message from "../models/message.model.js";
 
 export const createConversation = async (req, res, next) => {
-  const randomString = Math.random().toString(36).substring(2, 15);
-
   const newConversation = new Conversation({
-    id: req.body.userId + "-" + randomString,
     userId: req.body.userId,
     title: req.body.title,
   });
+  
   try {
     const savedConversation = await newConversation.save();
     res.status(201).send(savedConversation);
@@ -20,7 +19,12 @@ export const createConversation = async (req, res, next) => {
 export const updateConversation = async (req, res, next) => {
   try {
     const updatedConversation = await Conversation.findOneAndUpdate(
-      { id: req.params.id },
+      { id: req.body.conversationId },
+      {
+        $set: {
+          ...{ title: req.body.title },
+        },
+      },
       { new: true }
     );
     res.status(200).send(updatedConversation);
@@ -29,11 +33,16 @@ export const updateConversation = async (req, res, next) => {
   }
 };
 
-export const getSingleConversation = async (req, res, next) => {
+export const deleteConversation = async (req, res, next) => {
   try {
-    const conversation = await Conversation.findOne({ id: req.params.id });
-    if (!conversation) return next(createError(404, "Not found!"));
-    res.status(200).send(conversation);
+    const id = req.params.id;
+    const conversation = await Conversation.findOneAndDelete({
+      _id: id,
+    });
+    if (!conversation) return next(createError(404, "Conversation not found!"));
+    const messages = await Message.deleteMany({ conversationId: id });
+    if (!messages) return next(createError(404, "Messages not found!"));
+    res.status(200).json({ message: "Deleted chat successfully!" });
   } catch (err) {
     next(err);
   }

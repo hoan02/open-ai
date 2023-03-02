@@ -1,18 +1,17 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-
 const MessageSchema = new Schema(
   {
     conversationId: {
       type: String,
       required: true,
     },
-    userId: {
+    role: {
       type: String,
       required: true,
     },
-    desc: {
+    content: {
       type: String,
       required: true,
     },

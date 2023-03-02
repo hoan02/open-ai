@@ -6,7 +6,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import ChatGpt from "./pages/chatgpt/ChatGpt";
 import Dalle from "./pages/dalle/Dalle";
-import Whisper from "./pages/whisper/Whisper";
 import Blog from "./pages/blog/Blog";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
@@ -24,8 +23,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/chatgpt" element={<ChatGpt />} />
+            <Route path="/chatgpt/:id" element={<ChatGpt />} />
             <Route path="/dalle" element={<Dalle />} />
-            <Route path="/whisper" element={<Whisper />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
