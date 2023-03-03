@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import "./ChatGpt.scss";
 import iconSub from "../../assets/images/icon-letter-air.png";
@@ -14,6 +14,7 @@ import TypingEffect from "../../hooks/TypingEffect";
 
 const ChatGpt = () => {
   const { id } = useParams();
+  const location = useLocation();
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const ChatGpt = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [newConversationTitle, setNewConversationTitle] = useState("");
+  const [newMessages, setNewMessages] = useState([]);
 
   // Create a new Conversation
   const createConversationMutation = useMutation({
@@ -58,6 +60,7 @@ const ChatGpt = () => {
     navigate("/chatgpt");
   };
 
+  // Get all conversations
   const {
     isLoading: isLoadingConversations,
     error: errorConversations,
@@ -70,17 +73,20 @@ const ChatGpt = () => {
       }),
   });
 
-  //Get messages
+  //Get old messages
   const {
-    isLoading: isLoadingMessages,
-    error: errorMessages,
-    data: dataMessages,
+    isLoading: isLoadingOldMessages,
+    error: errorOldMessages,
+    data: dataOldMessages,
   } = useQuery({
-    queryKey: ["messages", id],
+    queryKey: ["oldMessages", id],
     queryFn: () =>
       newRequest.get(`/chatgpt/messages/${id}`).then((res) => {
         return res.data;
       }),
+    config: {
+      dependencies: [],
+    },
   });
 
   const handleContact = (conversationId) => {
@@ -88,24 +94,30 @@ const ChatGpt = () => {
   };
 
   // Create a new message
-  const createMessageMutation = useMutation({
-    mutationFn: (message) => {
-      console.log(message);
-      return newRequest.post(`/chatgpt/messages/${id}`, message);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["messages"]);
-    },
-  });
-
-  const handleCreateMesage = () => {
-    createMessageMutation.mutate({
-      content: inputMessage,
-    });
-    setInputMessage("");
+  //
+  const handleCreateMesage = async () => {
+    try {
+      const messageUser = {
+        role: "user",
+        content: inputMessage,
+      };
+      setNewMessages((newMessages) => [...newMessages, messageUser]);
+      setInputMessage("");
+      await newRequest
+        .post(`/chatgpt/messages/${id}`, messageUser)
+        .then((res) => {
+          const messageAssistant = {
+            role: "assistant",
+            content: res.data.content,
+          };
+          setNewMessages((newMessages) => [...newMessages, messageAssistant]);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  console.log(dataMessages);
+  console.log(newMessages);
 
   return (
     <div className="chatgpt">
@@ -138,13 +150,13 @@ const ChatGpt = () => {
             <div className="renderConversations">
               {isLoadingConversations ? (
                 <div className="conversation">
-                  <div>
+                  <div className="text">
                     <TypingEffect inputText="Loading..." />
                   </div>
                 </div>
               ) : errorConversations ? (
                 <div className="conversation">
-                  <div>
+                  <div className="text">
                     <TypingEffect inputText="Error..." />
                   </div>
                 </div>
@@ -174,28 +186,35 @@ const ChatGpt = () => {
         )}
 
         <section className="chatBox">
-          {isLoadingMessages ? (
+          {location.pathname === "/chatgpt" ? (
+            <div className="notice">
+              <TypingEffect inputText="Welcome to ChatGPT..." />
+            </div>
+          ) : isLoadingOldMessages ? (
             <div className="conversation">
               <div className="notice">
                 <TypingEffect inputText="Loading..." />
               </div>
             </div>
-          ) : errorMessages ? (
+          ) : errorOldMessages ? (
             <div className="conversation">
               <div className="notice">
                 <TypingEffect inputText="Error..." />
               </div>
             </div>
-          ) : dataMessages.length === 0 ? (
+          ) : dataOldMessages.length === 0 ? (
             <div className="notice">
-              <TypingEffect inputText="Welcome to Chat GPT!!!" />
+              <TypingEffect inputText="Chatbot is ready..." />
             </div>
           ) : (
-            dataMessages.map((message) => {
+            dataOldMessages.map((message) => {
               return <ChatLog key={message._id} typing={false} {...message} />;
             })
           )}
 
+          {newMessages?.map((message) => {
+            return <ChatLog key={message._id} typing={true} {...message} />;
+          })}
           <div
             className="chatInputContainer"
             style={{ width: isMobile ? "100%" : "calc(100% - 260px)" }}

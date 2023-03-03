@@ -10,6 +10,14 @@
     display: flex;
     justify-content: space-between;
 
+    .sep{
+      margin: auto;
+      height: 40px;
+      font-size: 14px;
+      background-color: white;
+      opacity: 0.4;
+    }
+
     .logo{
       padding: 20px;
       width: 130px;
@@ -49,15 +57,15 @@
           position: relative;
   
           img {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             object-fit: cover;
           }
   
           .options {
             position: absolute;
-            top: 50px;
+            top: 64px;
             right: 0;
             padding: 20px;
             background-color: white;
@@ -67,7 +75,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            width: 200px;
+            width: 160px;
             font-weight: 300;
             color: gray;
           }
@@ -88,7 +96,7 @@
   
           &:hover {
             background-color: #0033ff;
-            border-color: #0033ff;
+            border-color: white;
           }
         }
       }

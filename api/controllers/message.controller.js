@@ -10,7 +10,7 @@ export const createMessage = async (req, res, next) => {
       role: "user",
       content: req.body.content,
     };
-    await Message.create(newMessageUser);
+    
 
     const response = await openai.createCompletion({
       model: "text-davinci-003",
@@ -24,9 +24,9 @@ export const createMessage = async (req, res, next) => {
       role: "assistant",
       content: response.data.choices[0].text,
     };
-
+    res.status(201).json(newMessageAssistant);
+    await Message.create(newMessageUser);
     await Message.create(newMessageAssistant);
-    res.status(201).send("Assistant answered successfully");
   } catch (err) {
     next(err);
   }
