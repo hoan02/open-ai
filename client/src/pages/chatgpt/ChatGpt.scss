@@ -34,10 +34,10 @@
         cursor: pointer;
 
         .text{
-          width: 125px;
+          width: 120px;
           color: white;
           font-size: 16px;
-          margin: 5px 10px;
+          margin: 5px 20px;
         }
 
         input{
@@ -48,6 +48,7 @@
 
         .icon{
           padding: 5px;
+          margin-right: 5px;
           justify-items: center;
 
           img{
@@ -59,13 +60,11 @@
             }
           }
         }
+        &:hover{
+          background-color: #2c2d30;
+        }
       }
 
-      &:hover{
-        background-color: #2c2d30;
-      }
-      
-    
       .newConversation{
         .iconAdd{
           padding: 0 15px;
@@ -77,7 +76,43 @@
         }
       }
 
-     
+      .renderConversations{
+        height: 70%;
+        border-bottom: 1px solid whitesmoke;
+      }
+
+      .subLeft{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px;
+        .item{
+          height: 30px;
+          color: white;
+          font-size: 16px;
+          display: flex;
+          cursor: pointer;
+
+          &hover{
+            background-color: #ffffff;
+          }
+
+          img{
+            height: 100%;
+            padding: 5px;
+          }
+
+          .titleItem{
+            margin: auto 5px;
+            width: 100%;
+            &:hover{
+              opacity: 0.6;
+            }
+          }
+          
+        }
+        
+      }
     }
 
   
@@ -95,7 +130,7 @@
         display: flex;
         justify-content: center;
       }
-      
+
       .chatInputContainer{
         position: fixed;
         bottom: 0;
@@ -103,6 +138,13 @@
         box-sizing: content-box;
         background-image: linear-gradient(to top, #191a1b 0%, #343541 100%);
         text-align: center;
+
+        .noticeBottom{
+          color: green;
+          font-size: 20px;
+          font-weight: 600;
+          height: 120px;
+        }
 
         .chatInputHolder{
           display: flex-end;

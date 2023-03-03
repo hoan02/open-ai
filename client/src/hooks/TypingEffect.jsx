@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function TypingEffect({ inputText }) {
+function TypingEffect({ inputText, speed = 100 }) {
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -13,8 +13,7 @@ function TypingEffect({ inputText }) {
         currentIndex++;
         return inputText.substring(0, currentIndex);
       });
-    }, 100);
-
+    }, speed);
     return () => {
       clearInterval(intervalId);
     };

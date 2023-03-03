@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import "./ChatGpt.scss";
 import iconSub from "../../assets/images/icon-letter-air.png";
 import iconCheck from "../../assets/images/check.png";
 import iconDelete from "../../assets/images/delete.png";
+import iconContact from "../../assets/images/contact.png";
 import ChatLog from "../../components/chatLog/ChatLog";
 import { Contexts } from "../../hooks/ProviderContext";
 import newRequest from "../../utils/newRequest";
@@ -22,12 +23,22 @@ const ChatGpt = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [newConversationTitle, setNewConversationTitle] = useState("");
-  const [newMessages, setNewMessages] = useState([]);
+  const isHome = location.pathname === "/chatgpt";
+
+  if (!currentUser) {
+    navigate("/login");
+  }
+
+  // Clear conversations
+  const handleClearConversation = async () => {
+    await newRequest.delete(`/chatgpt/conversations`);
+    navigate(`/chatgpt/`);
+  };
 
   // Create a new Conversation
   const createConversationMutation = useMutation({
     mutationFn: (conversation) => {
-      return newRequest.post("/chatgpt/conversations", conversation);
+      return newRequest.post(`/chatgpt/conversations`, conversation);
     },
     onSuccess: (data) => {
       const newConversationId = data.data._id;
@@ -37,6 +48,7 @@ const ChatGpt = () => {
   });
 
   const handleCreateConversation = () => {
+    if (newConversationTitle === "") return setOpen(false);
     createConversationMutation.mutate({
       userId: currentUser._id,
       title: newConversationTitle,
@@ -73,51 +85,54 @@ const ChatGpt = () => {
       }),
   });
 
-  //Get old messages
-  const {
-    isLoading: isLoadingOldMessages,
-    error: errorOldMessages,
-    data: dataOldMessages,
-  } = useQuery({
-    queryKey: ["oldMessages", id],
-    queryFn: () =>
-      newRequest.get(`/chatgpt/messages/${id}`).then((res) => {
-        return res.data;
-      }),
-    config: {
-      dependencies: [],
+  //Create a new message
+  const createMessageUserMutation = useMutation({
+    mutationFn: (message) => {
+      return newRequest.post(`/chatgpt/messages/${id}`, message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["messages"]);
     },
   });
 
+  const createMessageAssistantMutation = useMutation({
+    mutationFn: (message) => {
+      return newRequest.post(`/chatgpt/messages/${id}`, message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["messages"]);
+    },
+  });
+
+  const handleCreateMessage = () => {
+    if (id === undefined || inputMessage === "") return;
+    createMessageUserMutation.mutate({
+      role: "user",
+      content: inputMessage,
+    });
+    createMessageAssistantMutation.mutate({
+      role: "assistant",
+      content: inputMessage,
+    });
+    setInputMessage("");
+  };
+  // Get the message
   const handleContact = (conversationId) => {
     navigate(`/chatgpt/${conversationId}`);
   };
 
-  // Create a new message
-  //
-  const handleCreateMesage = async () => {
-    try {
-      const messageUser = {
-        role: "user",
-        content: inputMessage,
-      };
-      setNewMessages((newMessages) => [...newMessages, messageUser]);
-      setInputMessage("");
-      await newRequest
-        .post(`/chatgpt/messages/${id}`, messageUser)
-        .then((res) => {
-          const messageAssistant = {
-            role: "assistant",
-            content: res.data.content,
-          };
-          setNewMessages((newMessages) => [...newMessages, messageAssistant]);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  console.log(newMessages);
+  const {
+    isLoading: isLoadingMessages,
+    error: errorMessages,
+    data: dataMessages,
+  } = useQuery({
+    queryKey: ["messages", id],
+    queryFn: () =>
+      newRequest.get(`/chatgpt/messages/${id}`).then((res) => {
+        return res.data;
+      }),
+    enabled: Boolean(id),
+  });
 
   return (
     <div className="chatgpt">
@@ -161,7 +176,7 @@ const ChatGpt = () => {
                   </div>
                 </div>
               ) : (
-                dataConversations.map((conversation) => (
+                dataConversations.slice(0, 10).map((conversation) => (
                   <div className="conversation" key={conversation._id}>
                     <div
                       className="text"
@@ -182,57 +197,78 @@ const ChatGpt = () => {
                 ))
               )}
             </div>
+            <div className="subLeft">
+              <div className="item">
+                <img className="filter-white" src={iconDelete} />
+                <div className="titleItem" onClick={handleClearConversation}>
+                  Clear conversations
+                </div>
+              </div>
+              <div className="item">
+                <img className="filter-white" src={iconContact} />
+                <div className="titleItem">
+                  <a
+                    className="link"
+                    href="https://www.facebook.com/hoan.ann69/"
+                    target="_blank"
+                  >
+                    Contact the developer
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
         <section className="chatBox">
-          {location.pathname === "/chatgpt" ? (
+          {isHome ? (
             <div className="notice">
               <TypingEffect inputText="Welcome to ChatGPT..." />
             </div>
-          ) : isLoadingOldMessages ? (
-            <div className="conversation">
-              <div className="notice">
-                <TypingEffect inputText="Loading..." />
-              </div>
+          ) : isLoadingMessages ? (
+            <div className="notice">
+              <TypingEffect inputText="Loading" />
             </div>
-          ) : errorOldMessages ? (
-            <div className="conversation">
-              <div className="notice">
-                <TypingEffect inputText="Error..." />
-              </div>
+          ) : errorMessages ? (
+            <div className="notice">
+              <TypingEffect inputText="Loading" />
             </div>
-          ) : dataOldMessages.length === 0 ? (
+          ) : dataMessages.length ? (
+            dataMessages.map((message) => {
+              return <ChatLog key={message._id} typing={false} {...message} />;
+            })
+          ) : (
             <div className="notice">
               <TypingEffect inputText="Chatbot is ready..." />
             </div>
-          ) : (
-            dataOldMessages.map((message) => {
-              return <ChatLog key={message._id} typing={false} {...message} />;
-            })
           )}
 
-          {newMessages?.map((message) => {
-            return <ChatLog key={message._id} typing={true} {...message} />;
-          })}
           <div
             className="chatInputContainer"
             style={{ width: isMobile ? "100%" : "calc(100% - 260px)" }}
           >
-            <div className="chatInputHolder">
-              <TextareaAutosize
-                minRows={1}
-                maxRows={15}
-                className="chatInputTextarea"
-                placeholder="Type your message here"
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-              />
-              <img src={iconSub} alt="" onClick={handleCreateMesage} />
-            </div>
-            <p className="title">
-              Chat bot dựa trên model "text-davinci-003" của OpenAI API
-            </p>
+            {isHome ? (
+              <div className="noticeBottom">
+                <TypingEffect inputText="Chat bot dựa trên model 'text-davinci-003' của OpenAI API" />
+              </div>
+            ) : (
+              <>
+                <div className="chatInputHolder">
+                  <TextareaAutosize
+                    minRows={1}
+                    maxRows={15}
+                    className="chatInputTextarea"
+                    placeholder="Type your message here"
+                    value={inputMessage}
+                    onChange={(e) => setInputMessage(e.target.value)}
+                  />
+                  <img src={iconSub} alt="" onClick={handleCreateMessage} />
+                </div>
+                <p className="title">
+                  Chat bot dựa trên model "text-davinci-003" của OpenAI API
+                </p>
+              </>
+            )}
           </div>
         </section>
       </div>
