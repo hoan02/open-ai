@@ -12,8 +12,8 @@ const Navbar = () => {
   const menuItems = [
     { path: "/chatgpt", title: "CHAT GPT" },
     { path: "/dalle", title: "DALL·E 2" },
-    { path: "/whisper", title: "WHISPER" },
     { path: "/blog", title: "BLOG" },
+    { path: "/about", title: "ABOUT" },
   ];
 
   const { isMobile, navbarColor } = useContext(Contexts);

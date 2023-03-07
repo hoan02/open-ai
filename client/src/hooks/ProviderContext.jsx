@@ -32,8 +32,8 @@ export const ProviderContext = ({ children }) => {
     { path: "/register", color: "#831dbf" },
     { path: "/user", color: "#831dbf" },
     { path: "/dalle", color: "#1dbf1f" },
-    { path: "/whisper", color: "#202111" },
-    { path: "/blog", color: "#202111" },
+    { path: "/blog", color: "#909111" },
+    { path: "/about", color: "#902111" },
   ];
 
   useEffect(() => {

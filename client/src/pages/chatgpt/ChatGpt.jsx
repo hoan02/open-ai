@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -22,12 +22,20 @@ const ChatGpt = () => {
   const { isMobile } = useContext(Contexts);
   const [inputMessage, setInputMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
   const [newConversationTitle, setNewConversationTitle] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const isHome = location.pathname === "/chatgpt";
 
   if (!currentUser) {
     navigate("/login");
   }
+
+  const systemMessage = {
+    role: "system",
+    content:
+      "Explain things like you're talking to a software professional with 2 years of experience.",
+  };
 
   // Clear conversations
   const handleClearConversation = async () => {
@@ -85,37 +93,6 @@ const ChatGpt = () => {
       }),
   });
 
-  //Create a new message
-  const createMessageUserMutation = useMutation({
-    mutationFn: (message) => {
-      return newRequest.post(`/chatgpt/messages/${id}`, message);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["messages"]);
-    },
-  });
-
-  const createMessageAssistantMutation = useMutation({
-    mutationFn: (message) => {
-      return newRequest.post(`/chatgpt/messages/${id}`, message);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["messages"]);
-    },
-  });
-
-  const handleCreateMessage = () => {
-    if (id === undefined || inputMessage === "") return;
-    createMessageUserMutation.mutate({
-      role: "user",
-      content: inputMessage,
-    });
-    createMessageAssistantMutation.mutate({
-      role: "assistant",
-      content: inputMessage,
-    });
-    setInputMessage("");
-  };
   // Get the message
   const handleContact = (conversationId) => {
     navigate(`/chatgpt/${conversationId}`);
@@ -128,11 +105,64 @@ const ChatGpt = () => {
   } = useQuery({
     queryKey: ["messages", id],
     queryFn: () =>
-      newRequest.get(`/chatgpt/messages/${id}`).then((res) => {
-        return res.data;
-      }),
+      newRequest
+        .get(`/chatgpt/messages/${id}`)
+        .then((res) => {
+          setMessages(res.data);
+          return res.data;
+        })
+        .catch((error) => {
+          console.log("Error fetching messages:", error);
+          return null;
+        }),
     enabled: Boolean(id),
   });
+
+  // Create a new message
+  const createMessageUser = useMutation({
+    mutationFn: (message) => {
+      return newRequest.post(`/chatgpt/messages/${id}`, message);
+    },
+    onSuccess: () => {
+      setIsTyping(false);
+      queryClient.invalidateQueries(["messages"]);
+    },
+  });
+
+  const createMessageAssistant = useMutation({
+    mutationFn: (message) => {
+      return newRequest.post(`/chatgpt/messages/${id}`, message);
+    },
+    onSuccess: () => {
+      setIsTyping(true);
+      queryClient.invalidateQueries(["messages"]);
+    },
+  });
+
+  const handleCreateMessage = () => {
+    if (id === undefined || inputMessage === "") return;
+    const userMessage = { role: "user", content: inputMessage };
+    createMessageUser.mutate({
+      sender: "user",
+      data: userMessage,
+    });
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    setInputMessage("");
+    processMessageToChatGPT(newMessages);
+  };
+
+  const processMessageToChatGPT = (chatMessage) => {
+    const apiMessages = chatMessage.reduce((acc, obj) => {
+      acc.push({ role: obj.role, content: obj.content });
+      return acc;
+    }, []);
+    const assistantMessage = {
+      sender: "assistant",
+      data: [systemMessage, ...apiMessages],
+    };
+    createMessageAssistant.mutate(assistantMessage);
+  };
 
   return (
     <div className="chatgpt">
@@ -212,7 +242,7 @@ const ChatGpt = () => {
                     href="https://www.facebook.com/hoan.ann69/"
                     target="_blank"
                   >
-                    Contact the developer
+                    Contact developer
                   </a>
                 </div>
               </div>
@@ -235,7 +265,9 @@ const ChatGpt = () => {
             </div>
           ) : dataMessages.length ? (
             dataMessages.map((message) => {
-              return <ChatLog key={message._id} typing={false} {...message} />;
+              return (
+                <ChatLog key={message._id} typing={isTyping} {...message} />
+              );
             })
           ) : (
             <div className="notice">

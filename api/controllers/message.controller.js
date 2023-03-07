@@ -4,30 +4,37 @@ import Conversation from "../models/conversation.model.js";
 import { openai } from "../sever.js";
 
 export const createMessage = async (req, res, next) => {
-  const isAssistant = req.body.role === "assistant";
-  var content = "";
-  if (isAssistant) {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: req.body.content,
-      max_tokens: 500,
-      temperature: 0.8,
-    });
-    content = response.data.choices[0].text;
-  } else {
-    content = req.body.content;
-  }
+  const { sender, data } = req.body;
+  const isAssistant = sender === "assistant";
+
+  let content = isAssistant
+    ? await generateAssistantResponse(data)
+    : data.content;
+
   const newMessage = new Message({
     conversationId: req.params.id,
-    role: req.body.role,
     userId: req.userId,
-    content: content,
+    role: sender,
+    content,
   });
+
   try {
     const savedMessage = await newMessage.save();
     res.status(201).send(savedMessage);
   } catch (err) {
     next(err);
+  }
+};
+
+const generateAssistantResponse = async (messages) => {
+  try {
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages,
+    });
+    return response.data.choices[0].message.content;
+  } catch (err) {
+    throw err;
   }
 };
 
