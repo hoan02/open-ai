@@ -18,6 +18,7 @@ const Navbar = () => {
 
   const { isMobile, navbarColor } = useContext(Contexts);
   const [open, setOpen] = useState(false);
+  const [openLinks, setOpenLinks] = useState(false);
   const [activeTitle, setActiveTitle] = useState("");
   const navigate = useNavigate();
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -35,96 +36,95 @@ const Navbar = () => {
 
   return (
     <div className="navbar" style={{ background: navbarColor }}>
-      <div className="container">
-        <Link to="/">
-          <div className="logo">
-            <img
-              src={logo}
-              alt="logo"
-              className="filter-white"
-              onClick={() => setActiveTitle("/")}
-            />
-          </div>
-        </Link>
+    <div className="container">
+      <Link to="/">
+        <div className="logo">
+          <img
+            src={logo}
+            alt="logo"
+            className="filter-white"
+            onClick={() => setActiveTitle("/")}
+          />
+        </div>
+      </Link>
+
+      <span className="sep">|</span>
+      <div className="menu-nav">
         {isMobile ? (
           <div className="menu-nav-mobile">
             <img
               src={btnMenu}
               alt=""
               className="filter-white"
-              onClick={() => setOpen(!open)}
+              onClick={() => setOpenLinks(!openLinks)}
             />
           </div>
         ) : (
-          <>
-            <span className="sep">|</span>
-            <div className="menu-nav">
-              <div className="links">
-                {menuItems.map((item) => (
-                  <Link
-                    to={item.path}
-                    className="link"
-                    key={item.path}
-                    onClick={() => setActiveTitle(item.title)}
-                  >
-                    <span className={activeTitle === item.title ? "hover" : ""}>
-                      {item.title}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-              <div className="auth">
-                {currentUser ? (
-                  <div className="user" onClick={() => setOpen(!open)}>
-                    <img src={currentUser.img || avtUser} alt="" />
-                    <span>{currentUser?.username}</span>
-                    {open && (
-                      <div className="options">
-                        <Link className="link" to="/user">
-                          My account
-                        </Link>
-                        <Link className="link" onClick={handleLogout}>
-                          Logout
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <>
-                    <Link to="/login" className="signIn link">
-                      Sign in
-                    </Link>
-                    <Link className="link" to="/register">
-                      <button>Join</button>
-                    </Link>
-                  </>
-                )}
-              </div>
-            </div>
-          </>
+          <div className="links">
+            {menuItems.map((item) => (
+              <Link
+                to={item.path}
+                className="link"
+                key={item.path}
+                onClick={() => setActiveTitle(item.title)}
+              >
+                <span className={activeTitle === item.title ? "hover" : ""}>
+                  {item.title}
+                </span>
+              </Link>
+            ))}
+          </div>
         )}
-      </div>
-      {isMobile && open && (
-        <div className="options">
-          {menuItems.map((item) => (
-            <Link
-              to={item.path}
-              className="link"
-              key={item.path}
-              onClick={() => {
-                setOpen(!open);
-                setActiveTitle(item.title);
-              }}
-            >
-              <span className={activeTitle === item.title ? "hover" : ""}>
-                {item.title}
-              </span>
-            </Link>
-          ))}
+        <div className="auth">
+          {currentUser ? (
+            <div className="user" onClick={() => setOpen(!open)}>
+              <img src={currentUser.img || avtUser} alt="" />
+              <span>{currentUser?.username}</span>
+              {open && (
+                <div className="options">
+                  <Link className="link" to="/user">
+                    My account
+                  </Link>
+                  <Link className="link" onClick={handleLogout}>
+                    Logout
+                  </Link>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link to="/login" className="signIn link">
+                Sign in
+              </Link>
+              <Link className="link" to="/register">
+                <button>Join</button>
+              </Link>
+            </>
+          )}
         </div>
-      )}
+      </div>
     </div>
-  );
+    {isMobile && openLinks && (
+      <div className="options">
+        {menuItems.map((item) => (
+          <Link
+            to={item.path}
+            className="link"
+            key={item.path}
+            onClick={() => {
+              setOpenLinks(!openLinks);
+              setActiveTitle(item.title);
+            }}
+          >
+            <span className={activeTitle === item.title ? "hover" : ""}>
+              {item.title}
+            </span>
+          </Link>
+        ))}
+      </div>
+    )}
+  </div>
+  )
 };
 
 export default Navbar;

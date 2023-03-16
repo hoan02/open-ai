@@ -24,8 +24,15 @@ const ChatGpt = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newConversationTitle, setNewConversationTitle] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
   const isHome = location.pathname === "/chatgpt";
+
+  const knowledge_cutoff = '2021-09-01'
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const current_date = `${year}-${month}-${day}`
+
 
   if (!currentUser) {
     navigate("/login");
@@ -33,8 +40,7 @@ const ChatGpt = () => {
 
   const systemMessage = {
     role: "system",
-    content:
-      "Explain things like you're talking to a software professional with 2 years of experience.",
+    content: `You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible. Knowledge cutoff: ${knowledge_cutoff} Current date: ${current_date}`,
   };
 
   // Clear conversations
@@ -124,7 +130,6 @@ const ChatGpt = () => {
       return newRequest.post(`/chatgpt/messages/${id}`, message);
     },
     onSuccess: () => {
-      setIsTyping(false);
       queryClient.invalidateQueries(["messages"]);
     },
   });
@@ -134,7 +139,6 @@ const ChatGpt = () => {
       return newRequest.post(`/chatgpt/messages/${id}`, message);
     },
     onSuccess: () => {
-      setIsTyping(true);
       queryClient.invalidateQueries(["messages"]);
     },
   });
@@ -265,9 +269,7 @@ const ChatGpt = () => {
             </div>
           ) : dataMessages.length ? (
             dataMessages.map((message) => {
-              return (
-                <ChatLog key={message._id} typing={isTyping} {...message} />
-              );
+              return <ChatLog key={message._id} typing={false} {...message} />;
             })
           ) : (
             <div className="notice">
@@ -281,7 +283,7 @@ const ChatGpt = () => {
           >
             {isHome ? (
               <div className="noticeBottom">
-                <TypingEffect inputText="Chat bot dựa trên model 'text-davinci-003' của OpenAI API" />
+                <TypingEffect inputText="Chat bot dựa trên model 'gpt-3.5-turbo' của OpenAI API" />
               </div>
             ) : (
               <>
@@ -297,7 +299,7 @@ const ChatGpt = () => {
                   <img src={iconSub} alt="" onClick={handleCreateMessage} />
                 </div>
                 <p className="title">
-                  Chat bot dựa trên model "text-davinci-003" của OpenAI API
+                  Chat bot dựa trên model "gpt-3.5-turbo" của OpenAI API
                 </p>
               </>
             )}

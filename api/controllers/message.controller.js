@@ -29,7 +29,7 @@ export const createMessage = async (req, res, next) => {
 const generateAssistantResponse = async (messages) => {
   try {
     const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-0301",
       messages,
     });
     return response.data.choices[0].message.content;
