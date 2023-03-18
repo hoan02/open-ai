@@ -6,6 +6,6 @@ import { createPostPhoto, getAllPostPhoto } from "../controllers/postPhoto.contr
 const router = express.Router();
 
 router.post('/', verifyToken, createPostPhoto)
-router.get('/', verifyToken, getAllPostPhoto)
+router.get('/', getAllPostPhoto)
 
 export default router;

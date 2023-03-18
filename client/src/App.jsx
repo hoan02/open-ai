@@ -15,7 +15,6 @@ import GeneratePhoto from "./pages/generatePhoto/GeneratePhoto";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const queryClient = new QueryClient();
 
 const App = () => (

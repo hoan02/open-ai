@@ -4,17 +4,17 @@ const toastService = {
   dismiss: ()=>{
     toast.dismiss();
   },
-  success: (message) => {
-    toast.success(message);
+  success: (message, id) => {
+    toast.success(message, {toastId: id});
   },
-  error: (message) => {
-    toast.error(message);
+  error: (message, id) => {
+    toast.error(message, {toastId: id});
   },
-  warning: (message) => {
-    toast.warning(message);
+  warning: (message, id) => {
+    toast.warning(message, {toastId: id});
   },
-  info: (message) => {
-    toast.info(message);
+  info: (message, id) => {
+    toast.info(message, {toastId: id});
   },
 };
 

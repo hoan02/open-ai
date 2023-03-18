@@ -35,6 +35,7 @@ const ChatGpt = () => {
   const current_date = `${year}-${month}-${day}`;
 
   if (!currentUser) {
+    toastService.info("You must be logged in to continue!", "idChatGpt");
     navigate("/login");
   }
 
@@ -44,10 +45,19 @@ const ChatGpt = () => {
   };
 
   // Clear conversations
-  const handleClearConversation = async () => {
-    await newRequest.delete(`/chatgpt/conversations`);
-    toastService.success("Deleted conversations successfully!");
-    navigate(`/chatgpt/`);
+  const clearConversationsMutation = useMutation({
+    mutationFn: () => {
+      return newRequest.delete(`/chatgpt/conversations`);
+    },
+    onSuccess: () => {
+      navigate(`/chatgpt`);
+      toastService.success("Deleted conversations successfully!");
+      queryClient.invalidateQueries(["conversations"]);
+    },
+  });
+
+  const handleClearConversation = () => {
+    clearConversationsMutation.mutate();
   };
 
   // Create a new Conversation
@@ -58,6 +68,7 @@ const ChatGpt = () => {
     onSuccess: (data) => {
       const newConversationId = data.data._id;
       navigate(`/chatgpt/${newConversationId}`);
+      toastService.success("Conversation created successfully!");
       queryClient.invalidateQueries(["conversations"]);
     },
   });
@@ -78,6 +89,7 @@ const ChatGpt = () => {
       return newRequest.delete(`/chatgpt/conversations/${conversationId}`);
     },
     onSuccess: () => {
+      toastService.success("Delete successfully!");
       queryClient.invalidateQueries(["conversations"]);
     },
   });
@@ -181,6 +193,7 @@ const ChatGpt = () => {
                 {open ? (
                   <>
                     <input
+                      className="inputNewConv"
                       type="text"
                       placeholder="Nhập tiêu đề"
                       value={newConversationTitle}
@@ -262,11 +275,17 @@ const ChatGpt = () => {
             </div>
           ) : isLoadingMessages ? (
             <div className="notice">
-              <TypeAnimation sequence={["Loading...", 1000, ""]} cursor={false}/>
+              <TypeAnimation
+                sequence={["Loading...", 1000, ""]}
+                cursor={false}
+              />
             </div>
           ) : errorMessages ? (
             <div className="notice">
-              <TypeAnimation sequence={["Loading...", 1000, ""]} cursor={false}/>
+              <TypeAnimation
+                sequence={["Loading...", 1000, ""]}
+                cursor={false}
+              />
             </div>
           ) : dataMessages.length ? (
             dataMessages.map((message) => {
@@ -274,7 +293,10 @@ const ChatGpt = () => {
             })
           ) : (
             <div className="notice">
-              <TypeAnimation sequence={["Chatbot is ready...", 1000, ""]} cursor={false}/>
+              <TypeAnimation
+                sequence={["Chatbot is ready...", 1000, ""]}
+                cursor={false}
+              />
             </div>
           )}
 

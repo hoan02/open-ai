@@ -34,6 +34,8 @@
         cursor: pointer;
 
         .text{
+          height: 24px;
+          line-height: 24px;
           width: 120px;
           color: white;
           font-size: 16px;
@@ -71,8 +73,13 @@
         }
         
         .inputNewConv{
-          margin: 0 5%;
-          width: 90%;
+          color: white;
+          background: none;
+          border: none;
+          border-bottom: 1px solid gray;
+          &:focus{
+            outline: none;
+          }
         }
       }
 

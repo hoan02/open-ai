@@ -102,6 +102,9 @@
             opacity: 0.5;
           }
 
+          @media (max-width: 720px) {
+            margin: auto;
+          }
         }
 
         .rightForm{
@@ -118,7 +121,7 @@
               font-weight: 500;
             }
   
-            input, p{
+            input, p, textarea{
               color: #636363;
               font-size: 16px;
               margin-top: 5px;
@@ -126,7 +129,7 @@
             }
 
             input, textarea{
-              width: 350px;
+              min-width: 350px;
             }
           }
 
@@ -150,6 +153,9 @@
           .hide{
             z-index: -1;
             opacity: 0.5;
+          }
+          @media (max-width: 720px) {
+            margin: auto;
           }
         }
 

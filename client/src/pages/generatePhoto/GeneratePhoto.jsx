@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import TextareaAutosize from "react-textarea-autosize";
+
 import "./GeneratePhoto.scss";
 import preview from "../../assets/images/preview.png";
 import loadingImg from "../../assets/images/loading.gif";
@@ -10,8 +12,8 @@ import { TypeAnimation } from "react-type-animation";
 import BackToTop from "../../components/backToTop/BackToTop";
 
 const GeneratePhoto = () => {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const navigate = useNavigate();
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   const [form, setForm] = useState({
     creator: currentUser.username,
@@ -147,12 +149,13 @@ const GeneratePhoto = () => {
               </div>
               <div className="item">
                 <div className="lable">Description:</div>
-                <textarea
-                  rows="4"
-                  type="text"
+                <TextareaAutosize
+                  minRows={4}
+                  maxRows={15}
+                  placeholder="Type your description here..."
                   name="desc"
                   onChange={handleChange}
-                ></textarea>
+                />
               </div>
               <div
                 className={`share ${form.photo && form.title ? "" : "hide"}`}
@@ -178,9 +181,7 @@ const GeneratePhoto = () => {
           </div>
         </form>
 
-        <div className="sample">
-          <button onClick={() => toastService.dismiss()}>diss</button>
-        </div>
+        <div className="sample"></div>
       </div>
       <BackToTop />
     </div>

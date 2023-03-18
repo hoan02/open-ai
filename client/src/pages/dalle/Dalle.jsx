@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
+import { Image } from "cloudinary-react";
+
 import avtLogo from "../../assets/images/avt-logo.png";
 import "./Dalle.scss";
 import BackToTop from "../../components/backToTop/BackToTop";
 import newRequest from "../../utils/newRequest";
+import toastService from "../../utils/toastService.js";
+import Card from "../../components/card/Card";
 
 const Dalle = () => {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
 
@@ -29,6 +34,11 @@ const Dalle = () => {
   };
 
   const handleClickGenerate = () => {
+    if (!currentUser) {
+      toastService.info("You must be logged in to continue!");
+      navigate("/login");
+      return;
+    }
     navigate(`generate`);
   };
 
@@ -58,33 +68,16 @@ const Dalle = () => {
       </div>
       <div className="container">
         <div className="mainContainer">
-          {searchText && (
-            <h2 className="font-medium text-[#666e75] text-xl mb-3">
-              Showing Resuls for{" "}
-              <span className="text-[#222328]">{searchText}</span>:
+          {searchText ? (
+            <h2 className="titleContainer">
+              Showing Resuls for <span>"{searchText}"</span>:
             </h2>
+          ) : (
+            <h2 className="titleContainer"></h2>
           )}
-          <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
-            {searchedResults?.map((post) => {
-              return (
-                <div
-                  key={post._id}
-                  className="card"
-                  onClick={() => {
-                    navigate(`/post/${post._id}`);
-                  }}
-                >
-                  <div className="card-image">
-                    <img src={post.photoUrl} alt="" />
-                  </div>
-                  <div className="card-content">
-                    <div className="card-title">
-                      <Link to={`/post/${post._id}`}>{post.title}</Link>
-                    </div>
-                    <div className="card-text">{post.prompt}</div>
-                  </div>
-                </div>
-              );
+          <div className="renderCard">
+            {searchedResults?.map((post, index) => {
+              return <Card key={post._id} {...post} idColor={index % 5} />;
             })}
           </div>
         </div>

@@ -23,7 +23,6 @@
   
       .subTitle{
         color: wheat;
-        max-width: 500px;
         margin-bottom: 20px;
       }
   
@@ -95,10 +94,16 @@
     
     
     .mainContainer{
-      margin-top: 100px;
-      .renderCard{
-        margin: 50px;
+      margin: auto;
+      max-width: 1080px;
 
+      .titleContainer{
+        margin-top: 50px;
+        margin-left: 20px;
+      }
+      .renderCard{
+        margin-top: 30px;
+        min-height: 1000px;
       }
     }
   }
