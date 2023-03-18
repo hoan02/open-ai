@@ -11,6 +11,10 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Navbar from "./components/navbar/Navbar";
 import { ProviderContext } from "./hooks/ProviderContext";
+import GeneratePhoto from "./pages/generatePhoto/GeneratePhoto";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const queryClient = new QueryClient();
 
@@ -25,11 +29,13 @@ const App = () => (
             <Route path="/chatgpt" element={<ChatGpt />} />
             <Route path="/chatgpt/:id" element={<ChatGpt />} />
             <Route path="/dalle" element={<Dalle />} />
+            <Route path="/dalle/generate" element={<GeneratePhoto />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
         </div>
+        <ToastContainer autoClose={2000} />;
       </ProviderContext>
     </QueryClientProvider>
   </div>

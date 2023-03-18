@@ -2,15 +2,15 @@
   position: relative;
   color: whitesmoke;
   background-color: #202123;
-  height: 100vh;
+  height: calc(100vh - 66px);
   width: 100%;
-  // min-width: 1400px;
   display: flex;
+  top: 66px;
+
 
   .container{
     position: absolute;
-    top: 66px;
-    bottom: 0;
+    height: 100%;
     width: 100%;
     display: flex;
     border-top: 1px solid gray;

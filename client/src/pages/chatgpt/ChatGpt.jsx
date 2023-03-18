@@ -11,7 +11,8 @@ import iconContact from "../../assets/images/contact.png";
 import ChatLog from "../../components/chatLog/ChatLog";
 import { Contexts } from "../../hooks/ProviderContext";
 import newRequest from "../../utils/newRequest";
-import TypingEffect from "../../hooks/TypingEffect";
+import { TypeAnimation } from "react-type-animation";
+import toastService from "../../utils/toastService.js";
 
 const ChatGpt = () => {
   const { id } = useParams();
@@ -26,13 +27,12 @@ const ChatGpt = () => {
   const [newConversationTitle, setNewConversationTitle] = useState("");
   const isHome = location.pathname === "/chatgpt";
 
-  const knowledge_cutoff = '2021-09-01'
+  const knowledge_cutoff = "2021-09-01";
   const currentDate = new Date();
   const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const day = String(currentDate.getDate()).padStart(2, '0');
-  const current_date = `${year}-${month}-${day}`
-
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
+  const current_date = `${year}-${month}-${day}`;
 
   if (!currentUser) {
     navigate("/login");
@@ -46,6 +46,7 @@ const ChatGpt = () => {
   // Clear conversations
   const handleClearConversation = async () => {
     await newRequest.delete(`/chatgpt/conversations`);
+    toastService.success("Deleted conversations successfully!");
     navigate(`/chatgpt/`);
   };
 
@@ -200,13 +201,13 @@ const ChatGpt = () => {
               {isLoadingConversations ? (
                 <div className="conversation">
                   <div className="text">
-                    <TypingEffect inputText="Loading..." />
+                    <TypeAnimation sequence={["Loading...", 1000, ""]} />
                   </div>
                 </div>
               ) : errorConversations ? (
                 <div className="conversation">
                   <div className="text">
-                    <TypingEffect inputText="Error..." />
+                    <TypeAnimation sequence={["Error...", 1000, ""]} />
                   </div>
                 </div>
               ) : (
@@ -257,23 +258,23 @@ const ChatGpt = () => {
         <section className="chatBox">
           {isHome ? (
             <div className="notice">
-              <TypingEffect inputText="Welcome to ChatGPT..." />
+              <TypeAnimation sequence={["Error...", 1000, ""]} cursor={false} />
             </div>
           ) : isLoadingMessages ? (
             <div className="notice">
-              <TypingEffect inputText="Loading" />
+              <TypeAnimation sequence={["Loading...", 1000, ""]} cursor={false}/>
             </div>
           ) : errorMessages ? (
             <div className="notice">
-              <TypingEffect inputText="Loading" />
+              <TypeAnimation sequence={["Loading...", 1000, ""]} cursor={false}/>
             </div>
           ) : dataMessages.length ? (
             dataMessages.map((message) => {
-              return <ChatLog key={message._id} typing={false} {...message} />;
+              return <ChatLog key={message._id} {...message} />;
             })
           ) : (
             <div className="notice">
-              <TypingEffect inputText="Chatbot is ready..." />
+              <TypeAnimation sequence={["Chatbot is ready...", 1000, ""]} cursor={false}/>
             </div>
           )}
 
@@ -283,7 +284,14 @@ const ChatGpt = () => {
           >
             {isHome ? (
               <div className="noticeBottom">
-                <TypingEffect inputText="Chat bot dựa trên model 'gpt-3.5-turbo' của OpenAI API" />
+                <TypeAnimation
+                  sequence={[
+                    "Chat bot dựa trên model 'gpt-3.5-turbo' của OpenAI API",
+                    1000,
+                    "",
+                  ]}
+                  cursor={false}
+                />
               </div>
             ) : (
               <>

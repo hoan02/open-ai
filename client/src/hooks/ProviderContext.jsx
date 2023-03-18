@@ -26,18 +26,19 @@ export const ProviderContext = ({ children }) => {
   const location = useLocation();
   const [navbarColor, setNavbarColor] = useState(null);
   const colors = [
-    { path: "/", color: null },
     { path: "/chatgpt", color: "#202123" },
     { path: "/login", color: "#831dbf" },
     { path: "/register", color: "#831dbf" },
     { path: "/user", color: "#831dbf" },
-    { path: "/dalle", color: "#00ff00" },
+    { path: "/dalle", color: "#008811" },
     { path: "/blog", color: "#909111" },
     { path: "/about", color: "#902111" },
   ];
 
   useEffect(() => {
-    const colorObj = colors.find((obj) => obj.path === location.pathname);
+    const colorObj = colors.find((obj) =>
+      location.pathname.startsWith(obj.path)
+    );
     if (colorObj) {
       setNavbarColor(colorObj.color);
     } else {
