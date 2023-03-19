@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
-import { Image } from "cloudinary-react";
 
-import avtLogo from "../../assets/images/avt-logo.png";
 import "./Dalle.scss";
+import avtLogo from "../../assets/images/dalle-header.png";
 import BackToTop from "../../components/backToTop/BackToTop";
 import newRequest from "../../utils/newRequest";
 import toastService from "../../utils/toastService.js";
-import Card from "../../components/card/Card";
+import Photo from "../../components/photo/Photo";
 
 const Dalle = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const navigate = useNavigate();
-  const [searchText, setSearchText] = useState("");
-
   const { data: allPosts, isLoading } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
@@ -22,16 +19,6 @@ const Dalle = () => {
       return response.data.data.reverse();
     },
   });
-
-  const searchedResults = allPosts?.filter(
-    (item) =>
-      item.title.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.prompt.toLowerCase().includes(searchText.toLowerCase())
-  );
-
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-  };
 
   const handleClickGenerate = () => {
     if (!currentUser) {
@@ -57,28 +44,17 @@ const Dalle = () => {
           <img src={avtLogo} alt="" />
         </div>
       </div>
-      <div className="search">
-        <input
-          className="input"
-          type="text"
-          placeholder="Search somethings"
-          value={searchText}
-          onChange={handleSearchChange}
-        />
-      </div>
+
       <div className="container">
         <div className="mainContainer">
-          {searchText ? (
-            <h2 className="titleContainer">
-              Showing Resuls for <span>"{searchText}"</span>:
-            </h2>
-          ) : (
-            <h2 className="titleContainer"></h2>
-          )}
-          <div className="renderCard">
-            {searchedResults?.map((post, index) => {
-              return <Card key={post._id} {...post} idColor={index % 5} />;
-            })}
+          <div className="renderPhoto">
+            {isLoading ? (
+              <div className="loading">Loading...</div>
+            ) : (
+              allPosts?.map((post, index) => {
+                return <Photo key={post._id} {...post} idColor={index % 5} />;
+              })
+            )}
           </div>
         </div>
       </div>

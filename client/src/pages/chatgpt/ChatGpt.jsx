@@ -9,7 +9,7 @@ import iconCheck from "../../assets/images/check.png";
 import iconDelete from "../../assets/images/delete.png";
 import iconContact from "../../assets/images/contact.png";
 import ChatLog from "../../components/chatLog/ChatLog";
-import { Contexts } from "../../hooks/ProviderContext";
+import { Contexts } from "../../global/ProviderContext";
 import newRequest from "../../utils/newRequest";
 import { TypeAnimation } from "react-type-animation";
 import toastService from "../../utils/toastService.js";

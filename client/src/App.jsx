@@ -1,19 +1,20 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Route, Routes } from "react-router-dom";
 
 import "./App.scss";
-import { Route, Routes } from "react-router-dom";
+import Navbar from "./components/navbar/Navbar";
 import Home from "./pages/home/Home";
+import { ProviderContext } from "./global/ProviderContext";
 import ChatGpt from "./pages/chatgpt/ChatGpt";
 import Dalle from "./pages/dalle/Dalle";
+import GeneratePhoto from "./pages/generatePhoto/GeneratePhoto";
 import Blog from "./pages/blog/Blog";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
-import Navbar from "./components/navbar/Navbar";
-import { ProviderContext } from "./hooks/ProviderContext";
-import GeneratePhoto from "./pages/generatePhoto/GeneratePhoto";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import MyAccount from "./pages/myAccount/MyAccount";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/blog" element={<Blog />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/my-account" element={<MyAccount />} />
           </Routes>
         </div>
         <ToastContainer autoClose={2000} />;

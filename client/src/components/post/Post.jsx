@@ -1,5 +1,5 @@
 import React from "react";
-import "./Card.scss";
+import "./Post.scss";
 import avt from "../../assets/images/avt-user.jpg";
 
 const Card = (props) => {

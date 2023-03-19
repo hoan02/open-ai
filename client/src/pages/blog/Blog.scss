@@ -1,3 +1,111 @@
 .blog{
-  background-color: rgb(255, 0, 0);
+  position: relative;
+  width: 100%;
+  background-color: white;
+  top: 66px;
+
+
+  .header{
+    border-top: 2px solid #7eff9a;
+    background: linear-gradient(to bottom, #008811, #00ab17);
+    padding: 0 12%;
+    display: flex;
+    justify-content: space-between;
+
+    .headerLeft{
+      margin-top: 50px;
+      max-width: 600px;
+      .title{
+        color: white;
+        font-size: 46px;
+        font-weight: 900;
+        margin: 10px 0;
+      }
+  
+      .subTitle{
+        color: wheat;
+        margin-bottom: 40px;
+      }
+  
+      button{
+        cursor: pointer;
+        padding: 6px 8px;
+        font-size: 20px;
+        border-radius: 5px;
+        border: 1px solid #6469ff;
+        background: white;
+        color: #15803d;
+        margin-top: 30px;
+        margin-bottom: 50px;
+  
+        &:hover{
+          border: 1px solid white;
+          background-color: #6469ff;
+          color: white;
+        }
+      }
+    }
+
+    .headerRight{
+      margin: 22px 0;
+      background-color: none;
+      img{
+        height: 500px;
+        width: 500px;
+        object-fit: contain;
+      }
+
+      @media (max-width: 720px) {
+        display: none;
+      }
+    }
+
+  }
+
+  .search{
+    margin: -24px auto;
+    max-width: 1100px;
+    padding: 0 20px;
+    position: sticky;  
+    top: 80px;    
+    border-radius: 5px;
+    display: flex;
+    z-index: 999;
+
+    .input{
+      padding: 15px;
+      border: none;
+      flex: 1;
+      border-radius: 5px;
+      outline: 2px solid #00ff00;
+      box-shadow: rgba(1, 255, 39, 0.393) 1px 5px 10px;
+      background-color: #f5f5f5;
+
+
+      &:focus{
+        box-shadow: rgba(0, 213, 32, 0.393) 2px 5px 10px;
+      }
+    }
+  }
+
+  .container{
+    max-width: 1280px;
+    margin: auto;
+
+    
+    
+    .mainContainer{
+      margin: auto;
+      max-width: 1080px;
+
+      .titleContainer{
+        margin-top: 50px;
+        margin-left: 20px;
+      }
+      .renderPost{
+        margin-top: 30px;
+        min-height: 1000px;
+      }
+    }
+  }
 }

@@ -5,7 +5,7 @@ import "./Navbar.scss";
 import logo from "../../assets/images/logo.svg";
 import avtUser from "../../assets/images/avt-user.jpg";
 import btnMenu from "../../assets/images/btn-menu.png";
-import { Contexts } from "../../hooks/ProviderContext";
+import { Contexts } from "../../global/ProviderContext";
 import newRequest from "../../utils/newRequest";
 import toastService from "../../utils/toastService";
 
@@ -85,7 +85,7 @@ const Navbar = () => {
                 <span>{currentUser?.username}</span>
                 {open && (
                   <div className="options">
-                    <Link className="link" to="/user">
+                    <Link className="link" to="/my-account">
                       My account
                     </Link>
                     <Link className="link" onClick={handleLogout}>

@@ -29,9 +29,9 @@ export const ProviderContext = ({ children }) => {
     { path: "/chatgpt", color: "#202123" },
     { path: "/login", color: "#831dbf" },
     { path: "/register", color: "#831dbf" },
-    { path: "/user", color: "#831dbf" },
-    { path: "/dalle", color: "#008811" },
-    { path: "/blog", color: "#909111" },
+    { path: "/my-account", color: "#831dbf" },
+    { path: "/dalle", color: "#400040" },
+    { path: "/blog", color: "#008811" },
     { path: "/about", color: "#902111" },
   ];
 
