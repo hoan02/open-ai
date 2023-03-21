@@ -1,7 +1,7 @@
 import createError from "../utils/createError.js";
 import Message from "../models/message.model.js";
 import Conversation from "../models/conversation.model.js";
-import { openai } from "../sever.js";
+import { openai } from "../server.js";
 
 export const createMessage = async (req, res, next) => {
   const { sender, data } = req.body;

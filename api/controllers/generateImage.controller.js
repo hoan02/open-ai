@@ -1,4 +1,4 @@
-import { openai } from "../sever.js";
+import { openai } from "../server.js";
 import createError from "../utils/createError.js";
 
 export const generateImage = async (req, res, next) => {

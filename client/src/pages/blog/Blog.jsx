@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import avtLogo from "../../assets/images/avt-logo.png";
 import "./Blog.scss";
-import BackToTop from "../../components/backToTop/BackToTop";
+import BackTo from "../../components/backTo/BackTo";
 import newRequest from "../../utils/newRequest";
 import toastService from "../../utils/toastService.js";
 import Post from "../../components/post/Post";
@@ -71,7 +71,7 @@ const Blog = () => {
           </div>
         </div>
       </div>
-      <BackToTop />
+      <BackTo />
     </div>
   );
 };

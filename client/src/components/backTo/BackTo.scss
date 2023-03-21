@@ -3,9 +3,18 @@
   position: fixed;
   bottom: 50px;
   right: 30px;
-  color: #fff;
   width: 50px;
   height: 50px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.backTo{
+  display: none;
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  width: 60px;
   object-fit: contain;
   cursor: pointer;
 }

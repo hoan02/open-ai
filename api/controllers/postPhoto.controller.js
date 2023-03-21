@@ -1,6 +1,6 @@
 import createError from "../utils/createError.js";
 import PostPhoto from "../models/postPhoto.model.js";
-import { cloudinary } from "../sever.js"
+import { cloudinary } from "../server.js"
 
 export const createPostPhoto = async (req, res, next) => {
   const photo_url = await (await cloudinary.uploader.upload(req.body.photo)).secure_url;

@@ -9,7 +9,7 @@ import { getRandomPrompt } from "../../utils/getRandomPrompt.js";
 import newRequest from "../../utils/newRequest";
 import toastService from "../../utils/toastService.js";
 import { TypeAnimation } from "react-type-animation";
-import BackToTop from "../../components/backToTop/BackToTop";
+import BackTo from "../../components/backTo/BackTo";
 
 const GeneratePhoto = () => {
   const navigate = useNavigate();
@@ -183,7 +183,7 @@ const GeneratePhoto = () => {
 
         <div className="sample"></div>
       </div>
-      <BackToTop />
+      <BackTo />
     </div>
   );
 };

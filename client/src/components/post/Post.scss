@@ -31,11 +31,12 @@
 
 	.cardBody{
 		display: flex;
-		flex-direction: row;
-		margin-top: 20px;
+		gap: 20px;
+
 		.photo{
 			width: 320px;
 			height: 320px;
+			margin: 10px 0 0 0;
 			
 			img{
 				width: 100%;
@@ -46,14 +47,16 @@
 				background-color: #ffffff;
 			}
 			@media (max-width: 720px) {
-				margin: auto;
+				margin: 10px auto;
 			}
 		}
 
 		.content{
+			display: flex;
+			gap: 10px;
 			flex: 1;
 			flex-direction: column;
-			margin-left: 20px;
+			// margin-left: 20px;
 			.title{
 				font-size: 30px;
 				font-weight: bold;

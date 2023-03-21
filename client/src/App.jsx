@@ -36,7 +36,7 @@ const App = () => (
             <Route path="/my-account" element={<MyAccount />} />
           </Routes>
         </div>
-        <ToastContainer autoClose={2000} />;
+        <ToastContainer autoClose={2000} />
       </ProviderContext>
     </QueryClientProvider>
   </div>

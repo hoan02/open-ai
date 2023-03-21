@@ -1,14 +1,14 @@
 .dalle{
-  position: relative;
   width: 100%;
   background-color: #ffffff;
-  top: 66px;
-
+  padding-top: 66px;
 
   .header{
+    width: 100%;
+    height: 100vh;
     border-top: 2px solid #e17eff;
-    background: linear-gradient(to bottom, #400040, #830083);
-    padding: 0 12%;
+    background: linear-gradient(to bottom, #400040, #000000);
+    padding: 0 10%;
     display: flex;
     justify-content: space-between;
 
@@ -16,22 +16,22 @@
       margin-top: 50px;
       max-width: 600px;
       .title{
-        color: #ffffff;
-        font-size: 46px;
-        font-weight: 900;
-        margin: 10px 0;
+        color: #71ff78;
+        font-size: 140px;
+        margin-top: 100px;
       }
   
       .subTitle{
+        margin-top: 30px;
         color: #71ff78;
+        font-size: 20px;
         margin-bottom: 40px;
       }
   
       button{
         cursor: pointer;
-        padding: 6px 8px;
-        font-size: 20px;
-        border-radius: 10px;
+        padding: 6px 10px;
+        font-size: 18px;
         border: 2px solid #ffffff;
         background: #ff9900;
         color: #ffffff;        
@@ -44,14 +44,36 @@
           color: #ffffff;
         }
       }
+
+      .toFeatured{
+        margin-top: 100px;
+        width: 100px;
+        color: white;
+        background: #7175ff;
+      }
+
+      @media (max-width: 720px) {
+        width: 100%;
+        .title{
+          font-size: 60px;
+          margin-top: 30px;
+        }
+    
+        .subTitle{
+          margin-top: 30px;
+          color: #71ff78;
+          font-size: 20px;
+          margin-bottom: 40px;
+        }
+      }
     }
 
     .headerRight{
       margin: 22px 0;
       background-color: none;
       img{
-        height: 500px;
-        width: 500px;
+        height: 550px;
+        width: 550px;
         object-fit: contain;
       }
 
@@ -59,30 +81,86 @@
         display: none;
       }
     }
-
   }
 
-  .container{
-    max-width: 1280px;
-    margin: auto;
-    
-    .mainContainer{
-      margin: auto;
-      max-width: 1080px;
-
-      .titleContainer{
-        margin-top: 50px;
-        margin-left: 20px;
+  .featured{
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 78px;
+    .imgRobot{
+      position: relative;
+      top: 0;
+      img{
+        height: auto;
+        width: 70%;
       }
-      .renderPhoto{
-        margin-top: 30px;
-        width: 100%;
-        min-height: 1000px;
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
 
+      .slider{
+        position: absolute;
+        bottom: 35%;
+        left: 48%;
+
+        .swiper {
+          width: 345px;
+          height: 435px;
+  
+          .swiper-slide {
+            border-radius: 18px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffffff;
+            @media (max-width: 720px) {
+              border-radius: 10px;
+              font-size: 14px;
+            }
+          }
+  
+          @media (max-width: 720px) {
+            width: 180px;
+            height: 250px;
+          }
+  
+          .swiper-slide:nth-child(1n) {
+            background-color: rgba(255, 112, 112, 0.9);
+          }
+          
+          .swiper-slide:nth-child(2n) {
+            background-color: rgba(94, 183, 255, 0.9);
+          }
+          
+          .swiper-slide:nth-child(3n) {
+            background-color: rgba(84, 255, 184, 0.9);
+          }
+          
+          .swiper-slide:nth-child(4n) {
+            background-color: rgba(255, 184, 90, 0.9);
+          }
+          
+          .swiper-slide:nth-child(5n) {
+            background-color: rgba(255, 103, 255, 0.9);
+          }
+          
+          .swiper-slide:nth-child(6n) {
+            background-color: rgba(255, 107, 139, 0.9);
+          }
+          
+          .swiper-slide:nth-child(7n) {
+            background-color: rgba(136, 255, 107, 0.9);
+          }
+          
+          .swiper-slide:nth-child(8n) {
+            background-color: rgba(96, 138, 255, 0.9);
+          }
+        }
       }
     }
   }
+
+  // .container{
+  //   max-width: 1280px;
+  //   margin: auto;
+  // }
 }
