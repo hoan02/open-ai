@@ -23,7 +23,6 @@ const Navbar = () => {
   const [activeTitle, setActiveTitle] = useState("");
   const navigate = useNavigate();
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  // console.log(currentUser);
 
   const handleLogout = async () => {
     try {
@@ -87,6 +86,9 @@ const Navbar = () => {
                   <div className="options">
                     <Link className="link" to="/my-account">
                       My account
+                    </Link>
+                    <Link className="link" to={`/blog/my-posts`}>
+                      My posts
                     </Link>
                     <Link className="link" onClick={handleLogout}>
                       Logout

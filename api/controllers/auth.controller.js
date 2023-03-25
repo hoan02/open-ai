@@ -18,6 +18,7 @@ export const register = async (req, res, next) => {
     next(err);
   }
 };
+
 export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
@@ -40,6 +41,8 @@ export const login = async (req, res, next) => {
     res
       .cookie("accessToken", token, {
         httpOnly: true,
+        sameSite: "none",
+        secure: true,
       })
       .status(200)
       .send(info);
@@ -51,8 +54,8 @@ export const login = async (req, res, next) => {
 export const logout = async (req, res) => {
   res
     .clearCookie("accessToken", {
-      sameSite: "none",
-      secure: true,
+      // sameSite: "none",
+      // secure: true,
     })
     .status(200)
     .send("User has been logged out.");

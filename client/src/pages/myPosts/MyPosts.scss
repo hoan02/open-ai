@@ -1,0 +1,157 @@
+.myPosts{
+  width: 100%;
+  background-color: #ffffff;
+  padding-top: 66px;
+
+  .container{
+    margin: auto;
+    max-width: 1080px;
+
+    .showEdit{
+      margin: 20px;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #eaeefc;
+      min-height: 600px;
+
+      .headerEdit{
+        display: flex;
+        justify-content: space-between;
+
+        .titleEdit{
+          font-size: 60px;
+          color: #04c204;
+          font-family: "Montserrat";
+        }
+
+        .iconClose{
+          width: 35px;
+          height: 35px;
+          cursor: pointer;
+
+          &:hover{
+            opacity: 0.6;
+          }
+        }
+      }
+
+      .title{
+        font-size: 60px;
+        font-weight: bold;
+        font-family: "Montserrat";
+        color: #00db00;
+      }
+    
+      .form{
+        margin-top: 20px;
+        display: flex;
+        gap: 20px;
+        .leftForm{
+          img{
+            border: 1px solid #ffffff;
+            border-radius: 10px;
+            width: 300px;
+            height: auto;
+          }
+        }
+    
+        .rightForm{
+          width: 100%;
+    
+          .item{
+            width: 100%;
+            gap: 10px;
+            justify-content: space-between;
+            
+            label{
+              font-size: 16px;
+              font-weight: bold;
+            }
+    
+            .input {
+              margin: 5px 0;
+              padding: 8px;
+              width: 100%;
+              font-size: 14px;
+              color: #585858;
+              background-color: #ffffff;
+              border: none;
+              border-radius: 10px;
+              outline: none;
+            }
+          }
+    
+          button{
+            padding: 5px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #658eff;
+            color: #ffffff;
+            font-size: 20px;
+            font-family: "Montserrat";
+            cursor: pointer;
+    
+            &:hover{
+              opacity: 0.8;
+            }
+          }
+        }
+    
+        @media (max-width: 768px){
+          flex-direction: column;
+        }
+      }
+
+      .close{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgb(190, 190, 190);
+        border-radius: 50%;
+        padding: 10px;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+
+        &:hover{
+          opacity: 0.8;
+        }
+      }
+    }
+    
+    .renderPost{
+      margin-top: 30px;
+      min-height: 100vh;
+      
+      .wrapPost{
+        position: relative;
+
+        .subPost{
+          position: absolute;
+          top: 25px;
+          right: 20px;
+
+          span{
+            cursor: pointer;
+            margin: 5px;
+            padding: 5px 8px;
+            border-radius: 5px;
+            color: #ffffff;
+
+            &:hover{
+              opacity: 0.8;
+            }
+          }
+
+          .edit{
+            background-color: #4365fc;
+          }
+
+          .delete{
+            background-color: #fc4d4d;
+          }
+        }
+      }
+    }
+  }
+}

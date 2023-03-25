@@ -1,23 +1,26 @@
 import React from "react";
+import moment from 'moment';
+
 import "./Post.scss";
 import avt from "../../assets/images/avt-user.jpg";
 
-const Card = (props) => {
+const Post = (props) => {
+  const timeAgo = moment(props.updatedAt).fromNow();
   const colors = ["green", "blue", "red", "yellow", "orange"];
   let color = colors[props.idColor];
 
   return (
-    <div className={`card ${color}`}>
-      <div className="headerCard">
+    <div className={`post ${color}`}>
+      <div className="headerPost">
         <div className="avatar">
           <img src={avt} alt="" />
         </div>
         <div className="creator">
           <p>{props.creator}</p>
-          <span className="time">12h30</span>
+          <span className="time">{timeAgo}</span>
         </div>
       </div>
-      <div className="cardBody">
+      <div className="postBody">
         <div className="photo">
           <img src={props.photoUrl} alt="" />
         </div>
@@ -30,4 +33,4 @@ const Card = (props) => {
   );
 };
 
-export default Card;
+export default Post;

@@ -5,7 +5,6 @@ import downArrow from "../../assets/images/down-arrow.png";
 
 function BackTo(e) {
   const position = e.value ? e.value : 0;
-  console.log(position);
   const [isVisible, setIsVisible] = useState(true);
   const [isVisibleTop, setIsVisibleTop] = useState(false);
   const handleBackToClick = () => {

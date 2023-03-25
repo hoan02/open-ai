@@ -13,12 +13,13 @@
   display: none;
   position: fixed;
   bottom: 50px;
-  left: 50%;
-  width: 60px;
+  left: calc(50% - 30px);
+  width: 0;
   object-fit: contain;
   cursor: pointer;
 }
 
 .visible {
+  width: 60px;
   display: block;
 }

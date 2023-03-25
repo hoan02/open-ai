@@ -10,6 +10,7 @@ import newRequest from "../../utils/newRequest";
 import toastService from "../../utils/toastService.js";
 import { TypeAnimation } from "react-type-animation";
 import BackTo from "../../components/backTo/BackTo";
+import Footer from "../../components/footer/Footer";
 
 const GeneratePhoto = () => {
   const navigate = useNavigate();
@@ -55,7 +56,6 @@ const GeneratePhoto = () => {
       toastService.warning("Please enter prompt!");
     }
   };
-  // console.log(form.photo);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,6 +76,16 @@ const GeneratePhoto = () => {
         setLoading(false);
       }
     }
+  };
+
+  const handleClear = () => {
+    setForm({
+      creator: currentUser.username,
+      title: "",
+      desc: "",
+      prompt: "",
+      photo: "",
+    });
   };
 
   return (
@@ -137,11 +147,11 @@ const GeneratePhoto = () => {
             <div className="rightForm">
               <div className="item">
                 <div className="lable">Creator(*):</div>
-                <p>{form.creator}</p>
+                <p className="creator">{form.creator}</p>
               </div>
               <div className="item">
                 <div className="lable">Prompt(*):</div>
-                <p>{form.prompt}</p>
+                <p>➥ {form.prompt}</p>
               </div>
               <div className="item">
                 <div className="lable">Title(*):</div>
@@ -157,10 +167,12 @@ const GeneratePhoto = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div
-                className={`share ${form.photo && form.title ? "" : "hide"}`}
-              >
-                <button type="submit" onClick={handleSubmit}>
+              <div className="share">
+                <button
+                  type="submit"
+                  className={`${form.photo && form.title ? "" : "hide"}`}
+                  onClick={handleSubmit}
+                >
                   {loading ? (
                     <>
                       Sharing
@@ -176,6 +188,12 @@ const GeneratePhoto = () => {
                     "Share with the Community"
                   )}
                 </button>
+                <button
+                  className={`clear ${form.photo || form.prompt ? "" : "hide"}`}
+                  onClick={handleClear}
+                >
+                  Clear
+                </button>
               </div>
             </div>
           </div>
@@ -184,6 +202,7 @@ const GeneratePhoto = () => {
         <div className="sample"></div>
       </div>
       <BackTo />
+      <Footer />
     </div>
   );
 };

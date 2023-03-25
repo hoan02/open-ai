@@ -7,7 +7,7 @@
 
   .header{
     border-top: 2px solid #7eff9a;
-    background: linear-gradient(to bottom, #008811, #00ab17);
+    background: linear-gradient(to bottom, #008811, #00ff22);
     padding: 0 12%;
     display: flex;
     justify-content: space-between;
@@ -16,15 +16,26 @@
       margin-top: 50px;
       max-width: 600px;
       .title{
-        color: white;
-        font-size: 46px;
-        font-weight: 900;
-        margin: 10px 0;
+        margin: 20px 0;
+        color: #401d83;
+        font-size: 70px;
+        font-weight: bold;
+        font-family: "Montserrat";
+        text-shadow: 3px 3px 0 #ecff3fc7;
+        @media (max-width: 720px) {
+          font-size: 40px;
+          text-shadow: 2px 2px 0 #ecff3fc7;  
+        } 
       }
   
       .subTitle{
-        color: wheat;
+        font-size: 18px;
+        font-weight: 500;
+        color: #401d83;
         margin-bottom: 40px;
+        @media (max-width: 720px) {
+          font-size: 14px;
+        }
       }
   
       button{

@@ -5,16 +5,16 @@ const toastService = {
     toast.dismiss();
   },
   success: (message, id) => {
-    toast.success(message, {toastId: id});
+    toast.success(message, {toastId: id, theme: "colored"});
   },
   error: (message, id) => {
-    toast.error(message, {toastId: id});
+    toast.error(message, {toastId: id, theme: "colored"});
   },
   warning: (message, id) => {
-    toast.warning(message, {toastId: id});
+    toast.warning(message, {toastId: id, theme: "colored"});
   },
   info: (message, id) => {
-    toast.info(message, {toastId: id});
+    toast.info(message, {toastId: id, theme: "colored"});
   },
 };
 
