@@ -2,7 +2,7 @@ import React from "react";
 import moment from 'moment';
 
 import "./Post.scss";
-import avt from "../../assets/images/avt-user.jpg";
+import avtUser from "../../assets/images/avt-user.jpg";
 
 const Post = (props) => {
   const timeAgo = moment(props.updatedAt).fromNow();
@@ -13,7 +13,7 @@ const Post = (props) => {
     <div className={`post ${color}`}>
       <div className="headerPost">
         <div className="avatar">
-          <img src={avt} alt="" />
+          <img src={props.avatar || avtUser} alt="" />
         </div>
         <div className="creator">
           <p>{props.creator}</p>

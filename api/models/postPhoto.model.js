@@ -7,6 +7,10 @@ const postPhoto = new Schema(
 			type: String,
       required: true,
 		},
+		avatar: {
+			type: String,
+      required: false,
+		},
 		creator: {
 			type: String,
       required: true,

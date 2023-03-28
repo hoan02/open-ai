@@ -1,10 +1,127 @@
 .myAccount{
-position: relative;
-  width: 100%;
-  background-color: white;
-  top: 66px;
+  position: relative;
+    width: 100%;
+    background-color: white;
+    top: 66px;
+  
+    .container{
+      max-width: 1200px;
+      margin: 0 auto; 
+      
+      .form{
+        max-width: 900px;
+        margin: 0 auto; 
+        margin-top: 30px;
+        min-height: 500px;
+        border: 1px solid gray;
+        border-radius: 10px;
 
-  .container{
+        .title{
+          margin: 20px 0;
+          font-size: 50px;
+          font-weight: bold;
+          text-align: center;
+          font-family: "Montserrat";
+        }
+        
+        .content{
+          display: flex;
+          min-height: 400px;
+
+          .item{
+            padding: 5px 20px;
+
+            .lable{
+              font-weight: bold;
+            }
+          }
+          
+          .left{
+            width: 40%;
+            margin: 20px auto;
     
+            .avatar{
+              display: flex;
+              justify-content: center;
+              margin: 20px auto;
+
+              img{
+                width: 255px;
+                height: 255px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 5px solid #cccccc;
+              }
+            }
+
+            .editAvt{
+              font-size: 14px;
+              background-color: #d6d6d6;
+              margin: 10px auto;
+              padding: 3px 5px;
+              max-width: 80px;
+              border: 1px solid #777777;
+              border-radius: 5px;
+              cursor: pointer;
+
+              &:hover{
+                opacity: 0.8;
+              }
+            }
+  
+            @media screen and (max-width: 768px){
+              width: 100%;
+              margin: auto;
+            }
+          }
+    
+          .right{
+            width: 100%;
+            flex: 1;
+
+            .input, .textarea{
+              color: #494949;
+              padding: 5px 10px;
+              margin-top: 5px;
+              min-width: 100%;
+            }
+
+          }
+
+          @media screen and (max-width: 768px){
+            flex-direction: column;
+          }
+        }
+
+        
+
+        
+
+        .btn{
+          margin: 20px auto;
+          display: flex;
+          justify-content: center;
+
+          button{
+            font-size: 18px;
+            font-family: "Montserrat";
+            font-weight: 500;
+            color: white;
+            background-color: #01be1a;
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover{
+              opacity: 0.9;
+            }
+          }
+        }
+      }
+
+      @media screen and (max-width: 768px){
+        margin: 0 10px;
+      }
+    }
   }
-}

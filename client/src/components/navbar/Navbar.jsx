@@ -32,7 +32,6 @@ const Navbar = () => {
       navigate("/");
     } catch (err) {
       toastService.error(err);
-      console.log(err);
     }
   };
 
@@ -80,7 +79,7 @@ const Navbar = () => {
           <div className="auth">
             {currentUser ? (
               <div className="user" onClick={() => setOpen(!open)}>
-                <img src={currentUser.img || avtUser} alt="" />
+                <img src={currentUser.avatar || avtUser} alt="" />
                 <span>{currentUser?.username}</span>
                 {open && (
                   <div className="options">

@@ -63,11 +63,7 @@ const GeneratePhoto = () => {
       setLoading(true);
       const newForm = { ...form };
       try {
-        const response = await newRequest.post(`/dalle`, newForm, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await newRequest.post(`/dalle`, newForm);
         toastService.success("Create post successfully!");
         navigate(`/dalle`);
       } catch (err) {
